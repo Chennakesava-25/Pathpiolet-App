@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="16.dp"
+    app:cardElevation="2.dp"
+    app:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="16.dp">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/iconContainer"
+            android:layout_width="40.dp"
+            android:layout_height="40.dp"
+            app:cardBackgroundColor="#E8F1FF"
+            app:cardCornerRadius="12.dp"
+            app:cardElevation="0.dp">
+
+            <ImageView
+                android:id="@+id/ivMenuIcon"
+                android:layout_width="20.dp"
+                android:layout_height="20.dp"
+                android:layout_gravity="center"
+                android:src="@android:drawable/ic_menu_edit"
+                app:tint="#1A3B8B" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/tvMenuTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16.dp"
+            android:layout_weight="1"
+            android:text="Edit profile"
+            android:textColor="#4A4A4A"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/ivArrow"
+            android:layout_width="16.dp"
+            android:layout_height="16.dp"
+            android:src="@android:drawable/arrow_down_float"
+            android:rotation="270"
+            app:tint="#C0C0C0" />
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

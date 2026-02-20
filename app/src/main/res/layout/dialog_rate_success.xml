@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="320.dp"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="24.dp"
+    app:cardElevation="8.dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="32.dp">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="64.dp"
+            android:layout_height="64.dp"
+            app:cardBackgroundColor="#E6F7EF"
+            app:cardCornerRadius="32.dp"
+            app:cardElevation="0.dp">
+            <ImageView
+                android:layout_width="32.dp"
+                android:layout_height="32.dp"
+                android:layout_gravity="center"
+                android:src="@android:drawable/button_onoff_indicator_on"
+                app:tint="#4DB6AC" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24.dp"
+            android:text="Thank You!"
+            android:textColor="#1A3B8B"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12.dp"
+            android:gravity="center"
+            android:text="Thanks for rating us. Your support\nhelps us improve!"
+            android:textColor="#7C86A2"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

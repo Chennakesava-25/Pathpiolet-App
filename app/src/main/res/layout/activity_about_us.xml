@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F9FE"
+    android:fitsSystemWindows="true">
+
+    <!-- Header -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#FFFFFF"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="40.dp"
+            android:layout_height="40.dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/ic_menu_revert"
+            app:tint="#1A3B8B" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="About Us"
+            android:textColor="#1A3B8B"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="24.dp">
+
+            <!-- App Logo & Info -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="80.dp"
+                android:layout_height="80.dp"
+                app:cardBackgroundColor="#1A3B8B"
+                app:cardCornerRadius="20.dp"
+                app:cardElevation="4.dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="PP"
+                    android:textColor="#FFFFFF"
+                    android:textSize="32sp"
+                    android:textStyle="bold" />
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16.dp"
+                android:text="PathPoilet"
+                android:textColor="#1A3B8B"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Version 1.0.0"
+                android:textColor="#7C86A2"
+                android:textSize="14sp" />
+
+            <!-- Our Mission -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32.dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="24.dp"
+                app:cardElevation="1.dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20.dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Our Mission"
+                        android:textColor="#1A3B8B"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8.dp"
+                        android:lineSpacingExtra="4dp"
+                        android:text="PathPilot is your trusted companion for Computer Science career guidance. We help students navigate their educational journey from 10th grade through PhD, providing personalized roadmaps, college recommendations, and career insights to make informed decisions about their future."
+                        android:textColor="#7C86A2"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- What We Offer -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24.dp"
+                android:text="What We Offer"
+                android:textColor="#1A3B8B"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12.dp"
+                android:orientation="vertical">
+                <include layout="@layout/item_about_offer" android:id="@+id/offer1" />
+                <include layout="@layout/item_about_offer" android:id="@+id/offer2" />
+                <include layout="@layout/item_about_offer" android:id="@+id/offer3" />
+                <include layout="@layout/item_about_offer" android:id="@+id/offer4" />
+                <include layout="@layout/item_about_offer" android:id="@+id/offer5" />
+            </LinearLayout>
+
+            <!-- Legal Links -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/btnTerms"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24.dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="16.dp"
+                app:cardElevation="1.dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="56.dp"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="16.dp">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Terms &amp; Conditions"
+                        android:textColor="#1A3B8B"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                    <ImageView
+                        android:layout_width="20.dp"
+                        android:layout_height="20.dp"
+                        android:src="@android:drawable/ic_menu_send"
+                        app:tint="#7C86A2" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/btnPrivacy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12.dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="16.dp"
+                app:cardElevation="1.dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="56.dp"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="16.dp">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Privacy Policy"
+                        android:textColor="#1A3B8B"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                    <ImageView
+                        android:layout_width="20.dp"
+                        android:layout_height="20.dp"
+                        android:src="@android:drawable/ic_menu_send"
+                        app:tint="#7C86A2" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Get in Touch -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32.dp"
+                app:cardBackgroundColor="#E6EEFF"
+                app:cardCornerRadius="24.dp"
+                app:cardElevation="0.dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20.dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Get in Touch"
+                        android:textColor="#1A3B8B"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16.dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="32.dp"
+                            android:layout_height="32.dp"
+                            app:cardCornerRadius="8.dp"
+                            app:cardElevation="0.dp">
+                            <ImageView
+                                android:layout_width="16.dp"
+                                android:layout_height="16.dp"
+                                android:layout_gravity="center"
+                                android:src="@android:drawable/ic_dialog_email"
+                                app:tint="#1A3B8B" />
+                        </androidx.cardview.widget.CardView>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12.dp"
+                            android:text="Email us at:\nsupport@pathpoilet.com"
+                            android:textColor="#1A3B8B"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                    
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#DDE4FF" android:layout_marginVertical="16.dp" />
+                    
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Follow us on social media:"
+                        android:textColor="#7C86A2"
+                        android:textSize="12sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12.dp"
+                        android:orientation="horizontal">
+                        <!-- Placeholder Icons -->
+                        <androidx.cardview.widget.CardView android:layout_width="40.dp" android:layout_height="40.dp" app:cardCornerRadius="20.dp" app:cardElevation="1.dp"><ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:src="@android:drawable/ic_menu_share" app:tint="#1A3B8B" /></androidx.cardview.widget.CardView>
+                        <androidx.cardview.widget.CardView android:layout_width="40.dp" android:layout_height="40.dp" app:cardCornerRadius="20.dp" app:cardElevation="1.dp" android:layout_marginStart="16.dp"><ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:src="@android:drawable/ic_menu_share" app:tint="#1A3B8B" /></androidx.cardview.widget.CardView>
+                        <androidx.cardview.widget.CardView android:layout_width="40.dp" android:layout_height="40.dp" app:cardCornerRadius="20.dp" app:cardElevation="1.dp" android:layout_marginStart="16.dp"><ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:src="@android:drawable/ic_menu_share" app:tint="#1A3B8B" /></androidx.cardview.widget.CardView>
+                        <androidx.cardview.widget.CardView android:layout_width="40.dp" android:layout_height="40.dp" app:cardCornerRadius="20.dp" app:cardElevation="1.dp" android:layout_marginStart="16.dp"><ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:src="@android:drawable/ic_menu_share" app:tint="#1A3B8B" /></androidx.cardview.widget.CardView>
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32.dp"
+                android:text="© 2026 PathPoilet. All rights reserved."
+                android:textColor="#7C86A2"
+                android:textSize="10sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4.dp"
+                android:text="Made with 💙 for students"
+                android:textColor="#7C86A2"
+                android:textSize="10sp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.PathPiolet">
+        <activity
+            android:name=".ui.RoadmapActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.EditProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.QnaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.AskQuestionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:theme="@style/Theme.PathPiolet">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.ActivityHistoryActivity" android:exported="false" />
+        <activity android:name=".ui.SendFeedbackActivity" android:exported="false" />
+        <activity android:name=".ui.RateUsActivity" android:exported="false" />
+        <activity android:name=".ui.ContactUsActivity" android:exported="false" />
+        <activity android:name=".ui.AboutUsActivity" android:exported="false" />
+        <activity android:name=".ui.SettingsActivity" android:exported="false" />
+        <activity android:name=".ui.FoundationActivity" android:exported="false" />
+        <activity android:name=".ui.PreparationActivity" android:exported="false" />
+        <activity android:name=".ui.GraduationActivity" android:exported="false" />
+        <activity android:name=".ui.MastersActivity" android:exported="false" />
+        <activity android:name=".ui.PhdActivity" android:exported="false" />
+        <activity android:name=".ui.CareerActivity" android:exported="false" />
+        <activity android:name=".ui.CollegeListingActivity" android:exported="false" />
+        <activity android:name=".ui.CollegesActivity" android:exported="false" />
+        <activity android:name=".ui.CollegeDetailsActivity" android:exported="false" />
+        <activity android:name=".ui.ExamDetailActivity" android:exported="false" />
+        <activity android:name=".ui.SubjectDetailActivity" android:exported="false" />
+        <activity android:name=".ui.CareerSuccessActivity" android:exported="false" />
+        <activity android:name=".ui.ChoosePathActivity" android:exported="false" />
+        <activity android:name=".ui.PreferencesActivity" android:exported="false" />
+        <activity android:name=".ui.AiProcessingActivity" android:exported="false" />
+        <activity android:name=".ui.AiResultsActivity" android:exported="false" />
+    </application>
+
+</manifest>

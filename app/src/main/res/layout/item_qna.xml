@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16.dp"
+    android:layout_marginVertical="8.dp"
+    app:cardCornerRadius="20.dp"
+    app:cardElevation="2.dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20.dp">
+
+        <TextView
+            android:id="@+id/tvQuestionTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16.dp"
+            android:text="Which specialization is best for AI in B.Tech?"
+            android:textColor="#1A3B8B"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/ivArrow"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivArrow"
+            android:layout_width="16.dp"
+            android:layout_height="16.dp"
+            android:src="@android:drawable/arrow_down_float"
+            android:rotation="270"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="#C0C0C0" />
+
+        <TextView
+            android:id="@+id/tvQuestionDesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8.dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="I am interested in Artificial Intelligence and want to know which specialization would be beneficial..."
+            android:textColor="#7C86A2"
+            android:textSize="12sp"
+            app:layout_constraintTop_toBottomOf="@id/tvQuestionTitle" />
+
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16.dp"
+            android:text="Feb 10, 2026  • Career Guidance"
+            android:textColor="#C0C0C0"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvQuestionDesc" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="#E6F7EF"
+            app:cardCornerRadius="8.dp"
+            app:cardElevation="0.dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="12.dp"
+                android:paddingVertical="4.dp"
+                android:text="Answered"
+                android:textColor="#4DB6AC"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

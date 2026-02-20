@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="splash_primary">#3D5AFE</color>
+    
+    <!-- Roadmap Colors -->
+    <color name="roadmap_primary">#1A3B8B</color>
+    <color name="roadmap_secondary">#4D6FFF</color>
+    <color name="roadmap_background">#F4F7FF</color>
+    <color name="roadmap_timeline_blue">#3F51B5</color>
+    <color name="roadmap_step_1">#5C6BC0</color>
+    <color name="roadmap_step_2">#283593</color>
+    <color name="roadmap_step_3">#8A70FF</color>
+    <color name="roadmap_step_4">#FBC02D</color>
+    <color name="roadmap_success">#27AE60</color>
+    <color name="roadmap_gray">#7C86A2</color>
+    <color name="roadmap_light_gray">#E5E7EB</color>
+    <color name="roadmap_text_light">#7C86A2</color>
+
+    <!-- Graduation Module specific colors -->
+    <color name="btech_gradient_start">#4D6FFF</color>
+    <color name="btech_gradient_end">#3F51B5</color>
+    <color name="bsc_gradient_start">#FFC107</color>
+    <color name="bsc_gradient_end">#FFB300</color>
+    <color name="chip_ai_ml">#4D6FFF</color>
+    <color name="chip_data_science">#8A70FF</color>
+    <color name="chip_security">#FFB300</color>
+    <color name="chip_cloud">#00BFA5</color>
+    <color name="chip_advanced_computing">#4D6FFF</color>
+    <color name="outcome_bg_blue">#E8F0FF</color>
+    <color name="outcome_bg_yellow">#FFF8E1</color>
+    <color name="focus_bg_blue">#F0F4FF</color>
+    <color name="focus_bg_yellow">#FFFDE7</color>
+
+    <!-- M.Tech / M.Sc Colors -->
+    <color name="mtech_gradient_start">#8A70FF</color>
+    <color name="mtech_gradient_end">#7C4DFF</color>
+    <color name="msc_gradient_start">#FFC107</color>
+    <color name="msc_gradient_end">#FFB300</color>
+    <color name="chip_gate">#8A70FF</color>
+    <color name="chip_university">#FFB300</color>
+    <color name="focus_bg_purple">#F3E5F5</color>
+    <color name="focus_bg_yellow_light">#FFFDE7</color>
+
+    <!-- Ph.D Colors -->
+    <color name="phd_primary">#FFB300</color>
+    <color name="phd_gradient_start">#FFC107</color>
+    <color name="phd_gradient_end">#FFB300</color>
+    <color name="phd_card_bg">#FFF8E1</color>
+    <color name="phd_journey_bg">#FFFDE7</color>
+    
+    <!-- Research Area Colors -->
+    <color name="research_ai_bg">#E3F2FD</color>
+    <color name="research_quantum_bg">#F3E5F5</color>
+    <color name="research_security_bg">#FFFDE7</color>
+    <color name="research_data_bg">#E8F5E9</color>
+    <color name="research_systems_bg">#E0F7FA</color>
+    
+    <color name="career_path_bg">#1A237E</color>
+
+    <!-- Timeline Refinement Colors -->
+    <color name="timeline_icon_blue">#4A69FF</color>
+    <color name="timeline_icon_purple">#8A70FF</color>
+    <color name="timeline_icon_yellow">#FFB800</color>
+    <color name="timeline_icon_green">#00BFA5</color>
+    <color name="timeline_arrow_bg">#F0F4FF</color>
+    <color name="timeline_text_title">#1A3B8B</color>
+    <color name="timeline_text_subtitle">#4D6FFF</color>
+    <color name="timeline_line_blue">#5C6BC0</color>
+    <color name="timeline_area_bg">#F4F7FF</color>
+    
+    <!-- Career Success Colors -->
+    <color name="job_icon_bg_blue">#448AFF</color>
+    <color name="job_icon_bg_purple">#7C4DFF</color>
+    <color name="job_icon_bg_yellow">#FFC107</color>
+    <color name="job_icon_bg_green">#00C853</color>
+    <color name="job_icon_bg_orange">#FF9800</color>
+    <color name="job_icon_bg_cyan">#00BCD4</color>
+    <color name="career_success_green">#00BFA5</color>
+    <color name="carrer_light_blue_bg">#E3F2FD</color>
+    <color name="career_light_yellow_bg">#FFFDE7</color>
+</resources>
