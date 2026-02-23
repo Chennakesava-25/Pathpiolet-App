@@ -8,6 +8,14 @@ import com.simats.pathpiolet.data.College
 import com.simats.pathpiolet.databinding.ActivityAiResultsBinding
 import com.simats.pathpiolet.ui.adapter.AiCollegeAdapter
 
+import android.util.Log
+import android.widget.Toast
+import com.simats.pathpiolet.api.RecommendationsRequest
+import com.simats.pathpiolet.api.RetrofitClient
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+
 class AiResultsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAiResultsBinding
@@ -20,87 +28,54 @@ class AiResultsActivity : AppCompatActivity() {
 
         binding.btnBack.setOnClickListener { finish() }
 
-        setupRecyclerView()
+        fetchRecommendations()
     }
 
-    private fun setupRecyclerView() {
-        val dummyData = getDummyAiColleges()
-        adapter = AiCollegeAdapter(dummyData, onCollegeClick = { college ->
+    private fun fetchRecommendations() {
+        val location = intent.getStringExtra("location") ?: ""
+        val budget = intent.getIntExtra("budget", 500000)
+        val collegeTypes = intent.getStringArrayListExtra("collegeTypes") ?: arrayListOf()
+        val hostel = intent.getBooleanExtra("hostel", false)
+        val placementPriority = intent.getStringExtra("placementPriority") ?: "Medium"
+        val campusSize = intent.getStringExtra("campusSize") ?: ""
+        val examScore = intent.getStringExtra("examScore") ?: ""
+        val specializations = intent.getStringArrayListExtra("specializations") ?: arrayListOf()
+
+        val request = RecommendationsRequest(
+            location = location,
+            budget = budget,
+            collegeTypes = collegeTypes,
+            hostel = hostel,
+            placementPriority = placementPriority,
+            campusSize = campusSize,
+            examScore = examScore,
+            specializations = specializations
+        )
+
+        RetrofitClient.instance.getRecommendations(request).enqueue(object : Callback<List<College>> {
+            override fun onResponse(call: Call<List<College>>, response: Response<List<College>>) {
+                if (response.isSuccessful) {
+                    val colleges = response.body() ?: emptyList()
+                    setupRecyclerView(colleges)
+                } else {
+                    Toast.makeText(this@AiResultsActivity, "Failed to get recommendations", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<List<College>>, t: Throwable) {
+                Log.e("AiResultsActivity", "Error: ${t.message}")
+                Toast.makeText(this@AiResultsActivity, "Error connecting to server", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    private fun setupRecyclerView(colleges: List<College>) {
+        adapter = AiCollegeAdapter(colleges, onCollegeClick = { college ->
              val intent = Intent(this, CollegeDetailsActivity::class.java)
              intent.putExtra("college_data", college)
              startActivity(intent)
         })
         binding.rvAiResults.layoutManager = LinearLayoutManager(this)
         binding.rvAiResults.adapter = adapter
-    }
-
-    private fun getDummyAiColleges(): List<College> {
-        return listOf(
-            College(
-                rank = 1,
-                name = "IIT Bangalore",
-                city = "Bangalore",
-                state = "Karnataka",
-                score = 98.5,
-                nirfRank = 2,
-                fees = "₹ 2L/yr",
-                avgPackage = "₹ 18 LPA",
-                matchScore = 95,
-                tags = listOf("Government", "Hostel"),
-                instituteId = "IIT-BLR-001"
-            ),
-            College(
-                rank = 5,
-                name = "BITS Pilani",
-                city = "Pilani",
-                state = "Rajasthan",
-                score = 92.0,
-                nirfRank = 5,
-                fees = "₹ 4.5L/yr",
-                avgPackage = "₹ 16 LPA",
-                matchScore = 92,
-                tags = listOf("Deemed", "Hostel"),
-                instituteId = "BITS-PIL-001"
-            ),
-            College(
-                rank = 12,
-                name = "VIT Vellore",
-                city = "Vellore",
-                state = "Tamil Nadu",
-                score = 88.0,
-                nirfRank = 12,
-                fees = "₹ 1.95L/yr",
-                avgPackage = "₹ 8 LPA",
-                matchScore = 88,
-                tags = listOf("Private", "Hostel"),
-                instituteId = "VIT-VEL-001"
-            ),
-            College(
-                rank = 8,
-                name = "NIT Trichy",
-                city = "Tiruchirappalli",
-                state = "Tamil Nadu",
-                score = 85.0,
-                nirfRank = 9,
-                fees = "₹ 1.25L/yr",
-                avgPackage = "₹ 12 LPA",
-                matchScore = 90,
-                tags = listOf("Government", "Hostel"),
-                instituteId = "NIT-TRY-001"
-            ),
-             College(
-                rank = 55,
-                name = "IIIT Hyderabad",
-                city = "Hyderabad",
-                state = "Telangana",
-                score = 80.0,
-                nirfRank = 55,
-                fees = "₹ 3.0L/yr",
-                avgPackage = "₹ 24 LPA",
-                matchScore = 89,
-                tags = listOf("Private", "Research"),
-                instituteId = "IIIT-HYD-001"
-            )
-        )
     }
 }

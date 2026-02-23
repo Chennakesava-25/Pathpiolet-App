@@ -23,14 +23,27 @@ class AiCollegeAdapter(
     }
 
     override fun onBindViewHolder(holder: AiCollegeViewHolder, position: Int) {
-        val college = colleges[position]
+        val college = colleges.getOrNull(holder.bindingAdapterPosition) ?: return
         with(holder.binding) {
-            tvCollegeName.text = college.name
-            tvLocation.text = "${college.city}, ${college.state}"
-            tvFees.text = college.fees.replace("/yr", "")
-            tvPackage.text = college.avgPackage
+            tvCollegeName.text = college.name ?: "N/A"
+            tvLocation.text = "${college.city ?: "N/A"}, ${college.state ?: ""}"
+            tvFees.text = college.fees?.replace("/yr", "") ?: "N/A"
+            tvPackage.text = college.avgPackage ?: "N/A"
             badgeMatch.text = "${college.matchScore}% Match"
             
+            // Render Tags dynamically
+            chipGroupTags.removeAllViews()
+            college.tags?.forEach { tag ->
+                if (tag.isNullOrBlank()) return@forEach
+                val chip = com.google.android.material.chip.Chip(root.context).apply {
+                    text = tag
+                    isClickable = false
+                    isCheckable = false
+                    textSize = 12f
+                }
+                chipGroupTags.addView(chip)
+            }
+
             // Set Match Badge Color based on score
             val matchColor = if (college.matchScore >= 90) "#3D5AFE" else if (college.matchScore >= 80) "#536DFE" else "#8C9EFF"
             badgeMatch.background.setTint(Color.parseColor(matchColor))
@@ -41,12 +54,13 @@ class AiCollegeAdapter(
             btnViewDetails.setOnClickListener { onCollegeClick(college) }
             
             btnSave.setOnClickListener {
+                val userId = com.simats.pathpiolet.utils.SessionManager(root.context).getUserId()
                 if (SavedCollegeManager.isSaved(root.context, college)) {
-                    SavedCollegeManager.removeCollege(root.context, college)
+                    SavedCollegeManager.removeCollege(root.context, userId, college)
                     college.isSaved = false
                     Toast.makeText(root.context, "Removed from Saved", Toast.LENGTH_SHORT).show()
                 } else {
-                    SavedCollegeManager.saveCollege(root.context, college)
+                    SavedCollegeManager.saveCollege(root.context, userId, college)
                     college.isSaved = true
                     Toast.makeText(root.context, "College Saved Successfully", Toast.LENGTH_SHORT).show()
                 }

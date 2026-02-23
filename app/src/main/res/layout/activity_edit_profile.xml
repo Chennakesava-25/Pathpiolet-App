@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="@color/app_background"
     android:fitsSystemWindows="true">
 
     <!-- Toolbar -->
@@ -11,15 +12,16 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="#FFFFFF"
+        android:background="@color/app_background"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
             android:id="@+id/btnBack"
-            android:layout_width="40.dp"
-            android:layout_height="40.dp"
+            android:layout_width="48.dp"
+            android:layout_height="48.dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@android:drawable/ic_menu_revert"
+            android:rotation="180"
             app:tint="#1A3B8B" />
 
         <TextView
@@ -28,7 +30,7 @@
             android:layout_gravity="center"
             android:text="Edit Profile"
             android:textColor="#1A3B8B"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextView
@@ -37,9 +39,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginEnd="16.dp"
+            android:padding="8.dp"
             android:text="Save"
             android:textColor="#1A3B8B"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
     </androidx.appcompat.widget.Toolbar>
 
@@ -47,7 +50,7 @@
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#EEEEEE"
+        android:background="@color/app_divider"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <ScrollView
@@ -74,17 +77,19 @@
                     android:layout_height="100.dp"
                     app:cardCornerRadius="50.dp"
                     app:cardElevation="4.dp">
+
                     <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="#8E99D6">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center"
                             android:text="V"
                             android:textColor="#FFFFFF"
-                            android:textSize="40sp"
-                            android:layout_gravity="center"/>
+                            android:textSize="40sp" />
                     </FrameLayout>
                 </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView

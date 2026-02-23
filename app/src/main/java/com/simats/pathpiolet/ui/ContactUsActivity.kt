@@ -13,6 +13,15 @@ import androidx.activity.enableEdgeToEdge
 import androidx.core.widget.addTextChangedListener
 import com.simats.pathpiolet.databinding.ActivityContactUsBinding
 import com.simats.pathpiolet.databinding.DialogContactSuccessBinding
+import com.simats.pathpiolet.api.RetrofitClient
+import com.simats.pathpiolet.api.ContactRequest
+import com.simats.pathpiolet.api.AuthResponse
+import com.simats.pathpiolet.utils.SessionManager
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import android.util.Log
+import android.widget.Toast
 
 class ContactUsActivity : AppCompatActivity() {
 
@@ -30,7 +39,7 @@ class ContactUsActivity : AppCompatActivity() {
         
         binding.btnSubmitContact.setOnClickListener {
             if (validateForm()) {
-                showSuccessModal()
+                submitContactRequest()
             }
         }
     }
@@ -60,6 +69,40 @@ class ContactUsActivity : AppCompatActivity() {
             return false
         }
         return true
+    }
+
+    private fun submitContactRequest() {
+        val sessionManager = SessionManager(this)
+        val userId = sessionManager.getUserId()
+        if (userId == -1) {
+            Toast.makeText(this, "Session expired, please login again", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val subject = binding.etContactSubject.text.toString()
+        val message = binding.etContactMessage.text.toString()
+
+        binding.btnSubmitContact.isEnabled = false
+        binding.btnSubmitContact.text = "Sending..."
+
+        val request = ContactRequest(userId, subject, message)
+        RetrofitClient.instance.contactUs(request).enqueue(object : Callback<AuthResponse> {
+            override fun onResponse(call: Call<AuthResponse>, response: Response<AuthResponse>) {
+                binding.btnSubmitContact.isEnabled = true
+                binding.btnSubmitContact.text = "Submit"
+                if (response.isSuccessful) {
+                    showSuccessModal()
+                } else {
+                    Toast.makeText(this@ContactUsActivity, "Error: ${response.message()}", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<AuthResponse>, t: Throwable) {
+                binding.btnSubmitContact.isEnabled = true
+                binding.btnSubmitContact.text = "Submit"
+                Toast.makeText(this@ContactUsActivity, "Network Error: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     private fun showSuccessModal() {

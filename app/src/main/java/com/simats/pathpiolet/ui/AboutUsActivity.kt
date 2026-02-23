@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.activity.enableEdgeToEdge
+import com.simats.pathpiolet.R
 import com.simats.pathpiolet.databinding.ActivityAboutUsBinding
 import com.simats.pathpiolet.databinding.ItemAboutOfferBinding
 
@@ -41,11 +42,16 @@ class AboutUsActivity : AppCompatActivity() {
 
     private fun setupLegalLinks() {
         binding.btnTerms.setOnClickListener {
-            Toast.makeText(this, "Opening Terms & Conditions...", Toast.LENGTH_SHORT).show()
-            // In a real app, you would launch an Activity with a WebView
+            val intent = Intent(this, LegalActivity::class.java)
+            intent.putExtra("title", "Terms & Conditions")
+            intent.putExtra("content", getString(R.string.terms_and_conditions))
+            startActivity(intent)
         }
         binding.btnPrivacy.setOnClickListener {
-            Toast.makeText(this, "Opening Privacy Policy...", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, LegalActivity::class.java)
+            intent.putExtra("title", "Privacy Policy")
+            intent.putExtra("content", getString(R.string.privacy_policy))
+            startActivity(intent)
         }
     }
 }

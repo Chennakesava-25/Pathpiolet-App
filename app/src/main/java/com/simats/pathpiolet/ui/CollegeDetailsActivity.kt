@@ -28,18 +28,18 @@ class CollegeDetailsActivity : AppCompatActivity() {
 
     private fun setupUI() {
         college?.let {
-            binding.tvCollegeName.text = it.name
-            binding.tvLocation.text = "${it.city}, ${it.state}"
+            binding.tvCollegeName.text = it.name ?: "N/A"
+            binding.tvLocation.text = "${it.city ?: "N/A"}, ${it.state ?: ""}"
             binding.badgeRank.text = "#${it.rank} NIRF Ranking"
             binding.badgeScore.text = "Score: ${it.score}"
             
             // Set Stats using included layout ids
             // With ViewBinding, included layouts with IDs become properties of the specific binding type.
             binding.statFees.tvStatLabel.text = "Total Fees"
-            binding.statFees.tvStatValue.text = it.fees
+            binding.statFees.tvStatValue.text = it.fees ?: "N/A"
             
             binding.statPackage.tvStatLabel.text = "Avg Package"
-            binding.statPackage.tvStatValue.text = it.avgPackage
+            binding.statPackage.tvStatValue.text = it.avgPackage ?: "N/A"
             
             updateSaveIcon()
         }
@@ -50,12 +50,13 @@ class CollegeDetailsActivity : AppCompatActivity() {
         
         binding.btnSave.setOnClickListener {
             college?.let { c ->
+                val userId = com.simats.pathpiolet.utils.SessionManager(this).getUserId()
                  if (SavedCollegeManager.isSaved(this, c)) {
-                    SavedCollegeManager.removeCollege(this, c)
+                    SavedCollegeManager.removeCollege(this, userId, c)
                     c.isSaved = false
                     Toast.makeText(this, "Removed from Saved", Toast.LENGTH_SHORT).show()
                 } else {
-                    SavedCollegeManager.saveCollege(this, c)
+                    SavedCollegeManager.saveCollege(this, userId, c)
                     c.isSaved = true
                     Toast.makeText(this, "College Saved Successfully", Toast.LENGTH_SHORT).show()
                 }

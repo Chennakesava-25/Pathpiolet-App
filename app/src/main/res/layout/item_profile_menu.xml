@@ -18,7 +18,7 @@
             android:id="@+id/iconContainer"
             android:layout_width="40.dp"
             android:layout_height="40.dp"
-            app:cardBackgroundColor="#E8F1FF"
+            app:cardBackgroundColor="#FFFFFF"
             app:cardCornerRadius="12.dp"
             app:cardElevation="0.dp">
 

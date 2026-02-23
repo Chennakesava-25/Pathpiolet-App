@@ -16,8 +16,8 @@ class CollegeAdapter(
     inner class CollegeViewHolder(private val binding: ItemCollegeBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(college: College) {
             binding.tvRankBadge.text = "#${college.rank}"
-            binding.tvCollegeName.text = college.name
-            binding.tvLocation.text = "${college.city}, ${college.state}"
+            binding.tvCollegeName.text = college.name ?: "N/A"
+            binding.tvLocation.text = "${college.city ?: "N/A"}, ${college.state ?: ""}"
             binding.tvScore.text = "Score: ${college.score}"
             
             // Set OnClickListener
@@ -47,9 +47,9 @@ class CollegeAdapter(
         } else {
             val lowercaseQuery = query.lowercase()
             colleges.filter {
-                it.name.lowercase().contains(lowercaseQuery) ||
-                it.city.lowercase().contains(lowercaseQuery) ||
-                it.state.lowercase().contains(lowercaseQuery)
+                (it.name?.lowercase()?.contains(lowercaseQuery) == true) ||
+                (it.city?.lowercase()?.contains(lowercaseQuery) == true) ||
+                (it.state?.lowercase()?.contains(lowercaseQuery) == true)
             }
         }
         notifyDataSetChanged()

@@ -21,6 +21,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.simats.pathpiolet.ui.theme.SplashPrimary
 import com.simats.pathpiolet.ui.theme.SplashTagline
+import com.simats.pathpiolet.api.*
+import android.widget.Toast
+import androidx.compose.ui.platform.LocalContext
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import com.simats.pathpiolet.utils.SessionManager
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -36,18 +43,72 @@ fun SignUpScreen(
     var confirmPassword by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
     var confirmPasswordVisible by remember { mutableStateOf(false) }
+    var isLoading by remember { mutableStateOf(false) }
+    val context = LocalContext.current
+    val sessionManager = remember { SessionManager(context) }
+
+    val handleSignUp = {
+        if (fullName.isBlank() || phoneNumber.isBlank() || age.isBlank() || email.isBlank() || password.isBlank()) {
+            Toast.makeText(context, "Please fill all fields", Toast.LENGTH_SHORT).show()
+        } else if (!email.endsWith("@gmail.com")) {
+            Toast.makeText(context, "Only @gmail.com addresses are allowed", Toast.LENGTH_SHORT).show()
+        } else if (phoneNumber.length != 10 || !phoneNumber.all { it.isDigit() }) {
+            Toast.makeText(context, "Phone number must be exactly 10 digits", Toast.LENGTH_SHORT).show()
+        } else if (password.length < 8) {
+            Toast.makeText(context, "Password must be at least 8 characters", Toast.LENGTH_SHORT).show()
+        } else if (!password.any { it.isUpperCase() }) {
+            Toast.makeText(context, "Password must contain at least one uppercase letter", Toast.LENGTH_SHORT).show()
+        } else if (!password.any { it.isDigit() }) {
+            Toast.makeText(context, "Password must contain at least one number", Toast.LENGTH_SHORT).show()
+        } else if (password != confirmPassword) {
+            Toast.makeText(context, "Passwords do not match", Toast.LENGTH_SHORT).show()
+        } else {
+            isLoading = true
+            val ageInt = age.toIntOrNull() ?: 0
+            val request = RegisterRequest(fullName, email, password, phoneNumber, ageInt)
+            RetrofitClient.instance.register(request).enqueue(object : Callback<AuthResponse> {
+                override fun onResponse(call: Call<AuthResponse>, response: Response<AuthResponse>) {
+                    isLoading = false
+                    if (response.isSuccessful) {
+                        val authResponse = response.body()
+                        authResponse?.user?.let { user ->
+                            sessionManager.saveUser(
+                                user.id, 
+                                user.username, 
+                                user.email, 
+                                user.phone, 
+                                user.age, 
+                                user.education_level, 
+                                user.interested_field
+                            )
+                        }
+                        Toast.makeText(context, "Registration Successful", Toast.LENGTH_SHORT).show()
+                        onSignUpSuccess()
+                    } else {
+                        val errorMsg = response.errorBody()?.string() ?: "Registration failed"
+                        Toast.makeText(context, "Error: $errorMsg", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<AuthResponse>, t: Throwable) {
+                    isLoading = false
+                    Toast.makeText(context, "Connection failed: ${t.message}", Toast.LENGTH_SHORT).show()
+                }
+            })
+        }
+    }
 
     val scrollState = rememberScrollState()
 
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = Color.White
+        color = MaterialTheme.colorScheme.background
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(24.dp)
-                .background(Color.White)
+                .background(MaterialTheme.colorScheme.background)
                 .verticalScroll(scrollState),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -75,7 +136,7 @@ fun SignUpScreen(
             // Title
             Text(
                 text = "Create Your Account",
-                color = SplashPrimary,
+                color = Color.Black,
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center
@@ -86,7 +147,7 @@ fun SignUpScreen(
             // Subtitle
             Text(
                 text = "Start your CS journey with us",
-                color = SplashTagline,
+                color = Color.Black.copy(alpha = 0.6f),
                 fontSize = 14.sp
             )
 
@@ -97,7 +158,8 @@ fun SignUpScreen(
                 value = fullName,
                 onValueChange = { fullName = it },
                 placeholder = "Full Name",
-                icon = Icons.Outlined.Person
+                icon = Icons.Outlined.Person,
+                enabled = !isLoading
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -107,7 +169,8 @@ fun SignUpScreen(
                 value = phoneNumber,
                 onValueChange = { phoneNumber = it },
                 placeholder = "Phone Number",
-                icon = Icons.Outlined.Phone
+                icon = Icons.Outlined.Phone,
+                enabled = !isLoading
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -117,7 +180,8 @@ fun SignUpScreen(
                 value = age,
                 onValueChange = { age = it },
                 placeholder = "Age",
-                icon = Icons.Outlined.DateRange // Best match for age/date
+                icon = Icons.Outlined.DateRange,
+                enabled = !isLoading
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -127,7 +191,8 @@ fun SignUpScreen(
                 value = email,
                 onValueChange = { email = it },
                 placeholder = "Email address",
-                icon = Icons.Outlined.Email
+                icon = Icons.Outlined.Email,
+                enabled = !isLoading
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -140,7 +205,8 @@ fun SignUpScreen(
                 icon = Icons.Outlined.Lock,
                 isPasswordField = true,
                 passwordVisible = passwordVisible,
-                onPasswordToggle = { passwordVisible = !passwordVisible }
+                onPasswordToggle = { passwordVisible = !passwordVisible },
+                enabled = !isLoading
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -153,60 +219,31 @@ fun SignUpScreen(
                 icon = Icons.Outlined.Lock,
                 isPasswordField = true,
                 passwordVisible = confirmPasswordVisible,
-                onPasswordToggle = { confirmPasswordVisible = !confirmPasswordVisible }
+                onPasswordToggle = { confirmPasswordVisible = !confirmPasswordVisible },
+                enabled = !isLoading
             )
 
             Spacer(modifier = Modifier.height(24.dp))
 
             // Sign Up Button
             Button(
-                onClick = onSignUpSuccess,
+                onClick = { handleSignUp() },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(56.dp),
                 shape = RoundedCornerShape(16.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = SplashPrimary),
-                elevation = ButtonDefaults.buttonElevation(defaultElevation = 4.dp)
+                elevation = ButtonDefaults.buttonElevation(defaultElevation = 4.dp),
+                enabled = !isLoading
             ) {
-                Text("Sign Up", fontSize = 18.sp, fontWeight = FontWeight.Bold)
-            }
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            // OR Divider
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                HorizontalDivider(modifier = Modifier.weight(1f), color = Color(0xFFE0E0E0))
-                Text(
-                    text = "OR",
-                    modifier = Modifier.padding(horizontal = 8.dp),
-                    color = SplashTagline,
-                    fontSize = 12.sp
-                )
-                HorizontalDivider(modifier = Modifier.weight(1f), color = Color(0xFFE0E0E0))
-            }
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            // Google Sign Up
-            OutlinedButton(
-                onClick = { /* Handle Google login */ },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(56.dp),
-                shape = RoundedCornerShape(16.dp),
-                border = ButtonDefaults.outlinedButtonBorder.copy(brush = androidx.compose.ui.graphics.SolidColor(Color(0xFFE0E0E0))),
-                elevation = ButtonDefaults.buttonElevation(defaultElevation = 2.dp),
-                colors = ButtonDefaults.outlinedButtonColors(containerColor = Color.White)
-            ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text("G", color = Color.Red, fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text("Sign Up with Google", color = SplashTagline, fontSize = 16.sp)
+                if (isLoading) {
+                    CircularProgressIndicator(color = Color.White, modifier = Modifier.size(24.dp))
+                } else {
+                    Text("Sign Up", fontSize = 18.sp, fontWeight = FontWeight.Bold)
                 }
             }
+
+            Spacer(modifier = Modifier.height(24.dp))
 
             Spacer(modifier = Modifier.height(32.dp))
 
@@ -215,9 +252,9 @@ fun SignUpScreen(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.padding(bottom = 16.dp)
             ) {
-                Text("Already have an account?", color = SplashTagline, fontSize = 14.sp)
+                Text("Already have an account?", color = Color.Black.copy(alpha = 0.6f), fontSize = 14.sp)
                 TextButton(onClick = onLoginClick) {
-                    Text("Login", color = SplashPrimary, fontWeight = FontWeight.Bold, fontSize = 14.sp)
+                    Text("Login", color = Color.Black, fontWeight = FontWeight.Bold, fontSize = 14.sp)
                 }
             }
         }
@@ -232,7 +269,8 @@ fun SignUpTextField(
     icon: ImageVector,
     isPasswordField: Boolean = false,
     passwordVisible: Boolean = false,
-    onPasswordToggle: () -> Unit = {}
+    onPasswordToggle: () -> Unit = {},
+    enabled: Boolean = true
 ) {
     OutlinedTextField(
         value = value,
@@ -253,8 +291,13 @@ fun SignUpTextField(
         shape = RoundedCornerShape(16.dp),
         colors = OutlinedTextFieldDefaults.colors(
             unfocusedBorderColor = Color(0xFFE0E0E0),
-            focusedBorderColor = SplashPrimary
+            focusedBorderColor = SplashPrimary,
+            focusedTextColor = MaterialTheme.colorScheme.onBackground,
+            unfocusedTextColor = MaterialTheme.colorScheme.onBackground,
+            disabledTextColor = MaterialTheme.colorScheme.onBackground,
+            errorTextColor = MaterialTheme.colorScheme.onBackground
         ),
-        singleLine = true
+        singleLine = true,
+        enabled = enabled
     )
 }

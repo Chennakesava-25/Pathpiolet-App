@@ -17,14 +17,24 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.simats.pathpiolet.ui.theme.SplashPrimary
 import com.simats.pathpiolet.ui.theme.SplashTagline
+import android.widget.Toast
+import androidx.compose.ui.platform.LocalContext
+import com.simats.pathpiolet.api.RetrofitClient
+import com.simats.pathpiolet.api.ForgotPasswordRequest
+import com.simats.pathpiolet.api.AuthResponse
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ForgotPasswordScreen(
     onBackToLogin: () -> Unit,
-    onSendResetLink: () -> Unit
+    onOtpSent: (String) -> Unit
 ) {
     var email by remember { mutableStateOf("") }
+    var isLoading by remember { mutableStateOf(false) }
+    val context = LocalContext.current
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -114,24 +124,59 @@ fun ForgotPasswordScreen(
                 shape = RoundedCornerShape(16.dp),
                 colors = OutlinedTextFieldDefaults.colors(
                     unfocusedBorderColor = Color(0xFFE0E0E0),
-                    focusedBorderColor = SplashPrimary
+                    focusedBorderColor = SplashPrimary,
+                    focusedTextColor = Color.Black,
+                    unfocusedTextColor = Color.Black,
+                    disabledTextColor = Color.Black,
+                    errorTextColor = Color.Black
                 ),
                 singleLine = true
             )
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            // Send Reset Link Button
+            // Send OTP Button
             Button(
-                onClick = onSendResetLink,
+                onClick = {
+                    if (email.isNotEmpty()) {
+                        isLoading = true
+                        RetrofitClient.instance.forgotPassword(ForgotPasswordRequest(email)).enqueue(object : Callback<AuthResponse> {
+                            override fun onResponse(call: Call<AuthResponse>, response: Response<AuthResponse>) {
+                                isLoading = false
+                                if (response.isSuccessful) {
+                                    Toast.makeText(context, "OTP sent to $email", Toast.LENGTH_SHORT).show()
+                                    onOtpSent(email)
+                                } else {
+                                    val errorMsg = try {
+                                        val errorBody = response.errorBody()?.string()
+                                        val jsonObject = com.google.gson.JsonParser.parseString(errorBody).asJsonObject
+                                        jsonObject.get("error")?.asString ?: jsonObject.get("message")?.asString ?: "Failed to generate OTP"
+                                    } catch (e: Exception) {
+                                        "Error: ${response.code()}"
+                                    }
+                                    Toast.makeText(context, errorMsg, Toast.LENGTH_LONG).show()
+                                }
+                            }
+                            override fun onFailure(call: Call<AuthResponse>, t: Throwable) {
+                                isLoading = false
+                                Toast.makeText(context, "Network error", Toast.LENGTH_SHORT).show()
+                            }
+                        })
+                    }
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(56.dp),
+                enabled = !isLoading && email.isNotEmpty(),
                 shape = RoundedCornerShape(16.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = SplashPrimary),
                 elevation = ButtonDefaults.buttonElevation(defaultElevation = 4.dp)
             ) {
-                Text("Send Reset Link", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                if (isLoading) {
+                    CircularProgressIndicator(color = Color.White, modifier = Modifier.size(24.dp))
+                } else {
+                    Text("Send OTP", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                }
             }
 
             Spacer(modifier = Modifier.height(32.dp))

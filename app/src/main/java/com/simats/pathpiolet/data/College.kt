@@ -2,23 +2,28 @@ package com.simats.pathpiolet.data
 
 import android.os.Parcelable
 
+import com.google.gson.annotations.SerializedName
 
 data class College(
-    val rank: Int,
-    val name: String,
-    val city: String,
-    val state: String,
-    val score: Double,
-    val nirfRank: Int,
-    val fees: String = "₹ 2.5L - 5L/yr",
-    val avgPackage: String = "₹ 8 LPA",
-    val instituteId: String = "IR-O-U-XXXX",
+    val id: Int = 0,
+    val rank: Int = 0,
+    val name: String? = null,
+    val city: String? = null,
+    val state: String? = null,
+    val score: Double = 0.0,
+    @SerializedName("nirf_rank")
+    val nirfRank: Int = 0,
+    val fees: String? = null,
+    @SerializedName("avg_package")
+    val avgPackage: String? = null,
+    val instituteId: String? = null,
     val matchScore: Int = 0,
-    val tags: List<String> = emptyList(),
+    val tags: List<String>? = emptyList(),
     var isSaved: Boolean = false,
-    val facilities: List<String> = emptyList()
+    val facilities: List<String>? = emptyList()
 ) : Parcelable {
     constructor(parcel: android.os.Parcel) : this(
+        parcel.readInt(),
         parcel.readInt(),
         parcel.readString() ?: "",
         parcel.readString() ?: "",
@@ -35,6 +40,7 @@ data class College(
     )
 
     override fun writeToParcel(parcel: android.os.Parcel, flags: Int) {
+        parcel.writeInt(id)
         parcel.writeInt(rank)
         parcel.writeString(name)
         parcel.writeString(city)

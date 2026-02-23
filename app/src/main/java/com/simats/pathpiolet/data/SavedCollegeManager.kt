@@ -14,26 +14,43 @@ object SavedCollegeManager {
         return context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
     }
 
-    fun saveCollege(context: Context, college: College) {
+    fun saveCollege(context: Context, userId: Int, college: College) {
         val savedList = getSavedColleges(context).toMutableList()
-        // Check if already saved to avoid duplicates
-        if (savedList.none { it.instituteId == college.instituteId && it.name == college.name }) {
-             // Update the isSaved flag before saving
+        if (savedList.none { it.id == college.id }) {
             val collegeToSave = college.copy(isSaved = true)
             savedList.add(collegeToSave)
             saveList(context, savedList)
+            
+            // Sync with backend
+            if (userId != -1) {
+                com.simats.pathpiolet.api.RetrofitClient.instance.saveCollege(
+                    com.simats.pathpiolet.api.SaveCollegeRequest(userId, college.id)
+                ).enqueue(object : retrofit2.Callback<com.simats.pathpiolet.api.AuthResponse> {
+                    override fun onResponse(call: retrofit2.Call<com.simats.pathpiolet.api.AuthResponse>, response: retrofit2.Response<com.simats.pathpiolet.api.AuthResponse>) {}
+                    override fun onFailure(call: retrofit2.Call<com.simats.pathpiolet.api.AuthResponse>, t: Throwable) {}
+                })
+            }
         }
     }
 
-    fun removeCollege(context: Context, college: College) {
+    fun removeCollege(context: Context, userId: Int, college: College) {
         val savedList = getSavedColleges(context).toMutableList()
-        savedList.removeAll { it.instituteId == college.instituteId && it.name == college.name }
+        savedList.removeAll { it.id == college.id }
         saveList(context, savedList)
+        
+        // Sync with backend
+        if (userId != -1) {
+            com.simats.pathpiolet.api.RetrofitClient.instance.unsaveCollege(userId, college.id)
+                .enqueue(object : retrofit2.Callback<com.simats.pathpiolet.api.AuthResponse> {
+                    override fun onResponse(call: retrofit2.Call<com.simats.pathpiolet.api.AuthResponse>, response: retrofit2.Response<com.simats.pathpiolet.api.AuthResponse>) {}
+                    override fun onFailure(call: retrofit2.Call<com.simats.pathpiolet.api.AuthResponse>, t: Throwable) {}
+                })
+        }
     }
     
     fun isSaved(context: Context, college: College): Boolean {
          val savedList = getSavedColleges(context)
-         return savedList.any { it.instituteId == college.instituteId && it.name == college.name }
+         return savedList.any { it.id == college.id }
     }
 
     fun getSavedColleges(context: Context): List<College> {

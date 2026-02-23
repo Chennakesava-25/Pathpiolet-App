@@ -11,6 +11,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/app_background"
         android:padding="16.dp">
 
         <androidx.cardview.widget.CardView
@@ -40,7 +41,7 @@
             android:layout_marginStart="16.dp"
             android:layout_marginEnd="8.dp"
             android:text="IIT Bombay"
-            android:textColor="#1A3B8B"
+            android:textColor="@color/app_text_primary"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@id/tvTag"
@@ -70,7 +71,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2.dp"
             android:text="Computer Science &amp; Engineerin"
-            android:textColor="#4A4A4A"
+            android:textColor="@color/app_text_primary"
+            android:alpha="0.8"
             android:textSize="12sp"
             app:layout_constraintEnd_toStartOf="@id/ivArrow"
             app:layout_constraintStart_toStartOf="@id/tvTitle"

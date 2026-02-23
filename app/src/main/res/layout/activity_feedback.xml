@@ -171,6 +171,7 @@
                     android:gravity="top"
                     android:hint="Tell us more about your experience..."
                     android:padding="16.dp"
+                    android:textColor="#000000"
                     android:textSize="14sp" />
             </androidx.cardview.widget.CardView>
 

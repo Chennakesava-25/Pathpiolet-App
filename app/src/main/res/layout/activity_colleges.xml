@@ -78,7 +78,7 @@
             android:drawablePadding="12dp"
             android:hint="Search by name, city..."
             android:paddingHorizontal="16dp"
-            android:textColor="#212121"
+            android:textColor="#000000"
             android:textColorHint="#9E9E9E"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"

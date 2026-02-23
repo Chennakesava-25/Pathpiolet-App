@@ -22,6 +22,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.simats.pathpiolet.ui.theme.SplashPrimary
 import com.simats.pathpiolet.ui.theme.SplashTagline
+import com.simats.pathpiolet.api.*
+import android.widget.Toast
+import androidx.compose.ui.platform.LocalContext
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import com.simats.pathpiolet.utils.SessionManager
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -33,16 +40,57 @@ fun LoginScreen(
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
+    var isLoading by remember { mutableStateOf(false) }
+    val context = LocalContext.current
+    val sessionManager = remember { SessionManager(context) }
+
+    val handleLogin = {
+        if (email.isBlank() || password.isBlank()) {
+            Toast.makeText(context, "Please fill all fields", Toast.LENGTH_SHORT).show()
+        } else {
+            isLoading = true
+            val request = LoginRequest(email, password)
+            RetrofitClient.instance.login(request).enqueue(object : Callback<AuthResponse> {
+                override fun onResponse(call: Call<AuthResponse>, response: Response<AuthResponse>) {
+                    isLoading = false
+                    if (response.isSuccessful) {
+                        val authResponse = response.body()
+                        authResponse?.user?.let { user ->
+                            sessionManager.saveUser(
+                                user.id, 
+                                user.username, 
+                                user.email, 
+                                user.phone, 
+                                user.age, 
+                                user.education_level, 
+                                user.interested_field
+                            )
+                        }
+                        Toast.makeText(context, "Login Successful", Toast.LENGTH_SHORT).show()
+                        onLoginSuccess()
+                    } else {
+                        val errorMsg = response.errorBody()?.string() ?: "Invalid credentials"
+                        Toast.makeText(context, "Error: $errorMsg", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<AuthResponse>, t: Throwable) {
+                    isLoading = false
+                    Toast.makeText(context, "Connection failed: ${t.message}", Toast.LENGTH_SHORT).show()
+                }
+            })
+        }
+    }
 
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = Color.White
+        color = MaterialTheme.colorScheme.background
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(24.dp)
-                .background(Color.White),
+                .background(MaterialTheme.colorScheme.background),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.height(40.dp))
@@ -69,7 +117,7 @@ fun LoginScreen(
             // Title
             Text(
                 text = "Welcome Back",
-                color = SplashPrimary,
+                color = Color.Black,
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -79,7 +127,7 @@ fun LoginScreen(
             // Subtitle
             Text(
                 text = "Login to continue your CS journey",
-                color = SplashTagline,
+                color = Color.Black.copy(alpha = 0.6f),
                 fontSize = 14.sp
             )
 
@@ -97,9 +145,14 @@ fun LoginScreen(
                 shape = RoundedCornerShape(16.dp),
                 colors = OutlinedTextFieldDefaults.colors(
                     unfocusedBorderColor = Color(0xFFE0E0E0),
-                    focusedBorderColor = SplashPrimary
+                    focusedBorderColor = SplashPrimary,
+                    focusedTextColor = Color.Black,
+                    unfocusedTextColor = Color.Black,
+                    disabledTextColor = Color.Black,
+                    errorTextColor = Color.Black
                 ),
-                singleLine = true
+                singleLine = true,
+                enabled = !isLoading
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -115,7 +168,6 @@ fun LoginScreen(
                 },
                 trailingIcon = {
                     IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                        // Using a simple text for eye icon since I don't want to import more icons yet
                         Text(if (passwordVisible) "👁️" else "👁️‍🗨️")
                     }
                 },
@@ -123,13 +175,18 @@ fun LoginScreen(
                 shape = RoundedCornerShape(16.dp),
                 colors = OutlinedTextFieldDefaults.colors(
                     unfocusedBorderColor = Color(0xFFE0E0E0),
-                    focusedBorderColor = SplashPrimary
+                    focusedBorderColor = SplashPrimary,
+                    focusedTextColor = Color.Black,
+                    unfocusedTextColor = Color.Black,
+                    disabledTextColor = Color.Black,
+                    errorTextColor = Color.Black
                 ),
-                singleLine = true
+                singleLine = true,
+                enabled = !isLoading
             )
 
             Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterEnd) {
-                TextButton(onClick = onForgotPasswordClick) {
+                TextButton(onClick = onForgotPasswordClick, enabled = !isLoading) {
                     Text("Forgot Password?", color = SplashPrimary, fontSize = 12.sp)
                 }
             }
@@ -138,53 +195,23 @@ fun LoginScreen(
 
             // Login Button
             Button(
-                onClick = onLoginSuccess,
+                onClick = { handleLogin() },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(56.dp),
                 shape = RoundedCornerShape(16.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = SplashPrimary),
-                elevation = ButtonDefaults.buttonElevation(defaultElevation = 4.dp)
+                elevation = ButtonDefaults.buttonElevation(defaultElevation = 4.dp),
+                enabled = !isLoading
             ) {
-                Text("Login", fontSize = 18.sp, fontWeight = FontWeight.Bold)
-            }
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            // OR Divider
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                HorizontalDivider(modifier = Modifier.weight(1f), color = Color(0xFFE0E0E0))
-                Text(
-                    text = "OR",
-                    modifier = Modifier.padding(horizontal = 8.dp),
-                    color = SplashTagline,
-                    fontSize = 12.sp
-                )
-                HorizontalDivider(modifier = Modifier.weight(1f), color = Color(0xFFE0E0E0))
-            }
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            // Google Login
-            OutlinedButton(
-                onClick = { /* Handle Google login */ },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(56.dp),
-                shape = RoundedCornerShape(16.dp),
-                border = ButtonDefaults.outlinedButtonBorder.copy(brush = androidx.compose.ui.graphics.SolidColor(Color(0xFFE0E0E0))),
-                elevation = ButtonDefaults.buttonElevation(defaultElevation = 2.dp),
-                colors = ButtonDefaults.outlinedButtonColors(containerColor = Color.White)
-            ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text("G", color = Color.Red, fontWeight = FontWeight.Bold, fontSize = 20.sp) // Mock Google Icon
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text("Continue with Google", color = SplashTagline, fontSize = 16.sp)
+                if (isLoading) {
+                    CircularProgressIndicator(color = Color.White, modifier = Modifier.size(24.dp))
+                } else {
+                    Text("Login", fontSize = 18.sp, fontWeight = FontWeight.Bold)
                 }
             }
+
+            Spacer(modifier = Modifier.height(24.dp))
 
             Spacer(modifier = Modifier.weight(1f))
 
@@ -193,9 +220,9 @@ fun LoginScreen(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.padding(bottom = 16.dp)
             ) {
-                Text("Don't have an account?", color = SplashTagline, fontSize = 14.sp)
+                Text("Don't have an account?", color = Color.Black.copy(alpha = 0.6f), fontSize = 14.sp)
                 TextButton(onClick = onSignUpClick) {
-                    Text("Sign Up", color = SplashPrimary, fontWeight = FontWeight.Bold, fontSize = 14.sp)
+                    Text("Sign Up", color = Color.Black, fontWeight = FontWeight.Bold, fontSize = 14.sp)
                 }
             }
         }

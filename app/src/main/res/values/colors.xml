@@ -7,7 +7,7 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="splash_primary">#3D5AFE</color>
+    <color name="splash_primary">#000000</color>
     
     <!-- Roadmap Colors -->
     <color name="roadmap_primary">#1A3B8B</color>
@@ -85,4 +85,11 @@
     <color name="career_success_green">#00BFA5</color>
     <color name="carrer_light_blue_bg">#E3F2FD</color>
     <color name="career_light_yellow_bg">#FFFDE7</color>
+
+    <!-- Theme Aware Colors -->
+    <color name="app_text_primary">#000000</color>
+    <color name="app_input_text_color">#000000</color>
+    <color name="app_background">#FFFFFF</color>
+    <color name="app_input_bg">#F8F9FB</color>
+    <color name="app_divider">#EEEEEE</color>
 </resources>

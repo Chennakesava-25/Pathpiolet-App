@@ -21,6 +21,10 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.platform.LocalContext
 import com.simats.pathpiolet.ui.theme.SplashPrimary
 import com.simats.pathpiolet.ui.theme.SplashTagline
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.foundation.clickable
+import com.simats.pathpiolet.utils.SessionManager
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -28,27 +32,31 @@ fun HomeScreen(
     modifier: Modifier = Modifier
 ) {
     val scrollState = rememberScrollState()
+    val context = LocalContext.current
+    val sessionManager = SessionManager(context)
+    val username = sessionManager.getUsername()
 
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(Color(0xFFF4F7FF)) // Light blue background
+            .background(Color.White)
             .verticalScroll(scrollState)
     ) {
         // Header Section
         Surface(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(220.dp),
+                .fillMaxWidth(),
             color = SplashPrimary,
             shape = RoundedCornerShape(bottomStart = 40.dp, bottomEnd = 40.dp)
         ) {
             Column(
-                modifier = Modifier.padding(24.dp)
+                modifier = Modifier
+                    .statusBarsPadding()
+                    .padding(24.dp)
             ) {
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = "Welcome, Student! 👋",
+                    text = "Welcome, $username! 👋",
                     color = Color.White,
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold
@@ -65,7 +73,10 @@ fun HomeScreen(
                 Surface(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(56.dp),
+                        .height(56.dp)
+                        .clickable {
+                            context.startActivity(android.content.Intent(context, QnaActivity::class.java))
+                        },
                     shape = RoundedCornerShape(28.dp),
                     color = Color.White.copy(alpha = 0.1f)
                 ) {
@@ -73,10 +84,14 @@ fun HomeScreen(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.padding(horizontal = 16.dp)
                     ) {
-                        Icon(Icons.Default.Search, contentDescription = null, tint = Color.White.copy(alpha = 0.6f))
+                        Icon(
+                            Icons.Default.Search, 
+                            contentDescription = "Search for AI assistance", 
+                            tint = Color.White.copy(alpha = 0.6f)
+                        )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
-                            text = "Search courses, colleges, roadmap",
+                            text = "Search for AI assistance...",
                             color = Color.White.copy(alpha = 0.4f),
                             fontSize = 14.sp
                         )
@@ -130,7 +145,7 @@ fun HomeScreen(
                     val context = LocalContext.current
                     Button(
                         onClick = {
-                             context.startActivity(android.content.Intent(context, com.simats.pathpiolet.ui.ChoosePathActivity::class.java))
+                             context.startActivity(android.content.Intent(context, com.simats.pathpiolet.ui.PreferencesActivity::class.java))
                         },
                         colors = ButtonDefaults.buttonColors(containerColor = Color.White),
                         shape = RoundedCornerShape(12.dp),
@@ -147,40 +162,54 @@ fun HomeScreen(
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
-            color = SplashPrimary
+            color = Color.Black
         )
 
         // Grid of Pathways
         Column(modifier = Modifier.padding(16.dp)) {
+            val context = LocalContext.current
+            
             Row(modifier = Modifier.fillMaxWidth()) {
                 PathwayCard(
                     modifier = Modifier.weight(1f),
-                    icon = Icons.Default.Menu, // Closest to book
+                    icon = painterResource(id = com.simats.pathpiolet.R.drawable.ic_book),
                     title = "Explore After\n10th",
-                    iconBg = Color(0xFFE8EAF6)
+                    iconBg = Color(0xFFE8EAF6),
+                    onClick = {
+                        context.startActivity(android.content.Intent(context, FoundationActivity::class.java))
+                    }
                 )
                 Spacer(modifier = Modifier.width(16.dp))
                 PathwayCard(
                     modifier = Modifier.weight(1f),
-                    icon = Icons.Default.Info, // Closest to hat
+                    icon = painterResource(id = com.simats.pathpiolet.R.drawable.ic_school), // Cap
                     title = "Explore After\n12th",
-                    iconBg = Color(0xFFFFF9C4)
+                    iconBg = Color(0xFFFFF9C4),
+                    onClick = {
+                        context.startActivity(android.content.Intent(context, PreparationActivity::class.java))
+                    }
                 )
             }
             Spacer(modifier = Modifier.height(16.dp))
             Row(modifier = Modifier.fillMaxWidth()) {
                 PathwayCard(
                     modifier = Modifier.weight(1f),
-                    icon = Icons.Default.Home, // Closest to building
+                    icon = rememberVectorPainter(image = Icons.Default.Home), // Building/College Icon
                     title = "Top Colleges",
-                    iconBg = Color(0xFFE8EAF6)
+                    iconBg = Color(0xFFE8EAF6),
+                    onClick = {
+                        context.startActivity(android.content.Intent(context, CollegesActivity::class.java))
+                    }
                 )
                 Spacer(modifier = Modifier.width(16.dp))
                 PathwayCard(
                     modifier = Modifier.weight(1f),
-                    icon = Icons.Default.Star, // Closest to graph
+                    icon = painterResource(id = com.simats.pathpiolet.R.drawable.ic_trending_up), // Chart
                     title = "Future\nRoadmap",
-                    iconBg = Color(0xFFFFF9C4)
+                    iconBg = Color(0xFFFFF9C4),
+                    onClick = {
+                         context.startActivity(android.content.Intent(context, RoadmapActivity::class.java))
+                    }
                 )
             }
         }
@@ -190,12 +219,15 @@ fun HomeScreen(
 @Composable
 fun PathwayCard(
     modifier: Modifier = Modifier,
-    icon: ImageVector,
+    icon: androidx.compose.ui.graphics.painter.Painter,
     title: String,
-    iconBg: Color
+    iconBg: Color,
+    onClick: () -> Unit
 ) {
     Surface(
-        modifier = modifier.height(160.dp),
+        modifier = modifier
+            .height(160.dp)
+            .clickable(onClick = onClick), // Add clickable
         shape = RoundedCornerShape(24.dp),
         color = Color.White,
         shadowElevation = 2.dp
@@ -210,7 +242,12 @@ fun PathwayCard(
                 color = iconBg
             ) {
                 Box(contentAlignment = Alignment.Center) {
-                    Icon(icon, contentDescription = null, tint = SplashPrimary, modifier = Modifier.size(28.dp))
+                    Icon(
+                        painter = icon, 
+                        contentDescription = null, 
+                        tint = SplashPrimary, 
+                        modifier = Modifier.size(28.dp)
+                    )
                 }
             }
             Spacer(modifier = Modifier.height(16.dp))
@@ -218,7 +255,7 @@ fun PathwayCard(
                 text = title,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
-                color = SplashPrimary,
+                color = Color.Black,
                 lineHeight = 18.sp
             )
         }

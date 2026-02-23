@@ -141,7 +141,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="+91-XXXXXXXXXX"
+                            android:text="+91-9876543210"
                             android:textColor="#7C86A2"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -233,6 +233,7 @@
                         android:layout_marginTop="4.dp"
                         android:background="@drawable/bg_edit_text_field"
                         android:paddingHorizontal="12.dp"
+                        android:textColor="#000000"
                         android:textSize="14sp" />
 
                     <View android:layout_width="match_parent" android:layout_height="16.dp" />
@@ -251,6 +252,7 @@
                         android:background="@drawable/bg_edit_text_field"
                         android:paddingHorizontal="12.dp"
                         android:inputType="textEmailAddress"
+                        android:textColor="#000000"
                         android:textSize="14sp" />
 
                     <View android:layout_width="match_parent" android:layout_height="16.dp" />
@@ -268,6 +270,7 @@
                         android:layout_marginTop="4.dp"
                         android:background="@drawable/bg_edit_text_field"
                         android:paddingHorizontal="12.dp"
+                        android:textColor="#000000"
                         android:textSize="14sp" />
 
                     <View android:layout_width="match_parent" android:layout_height="16.dp" />
@@ -286,6 +289,7 @@
                         android:background="@drawable/bg_edit_text_field"
                         android:gravity="top"
                         android:padding="12.dp"
+                        android:textColor="#000000"
                         android:textSize="14sp" />
                     <TextView
                         android:id="@+id/tvContactCharCount"

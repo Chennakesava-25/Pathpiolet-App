@@ -27,18 +27,56 @@ import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.time.temporal.ChronoUnit
 import java.util.Locale
+import android.widget.Toast
+import com.simats.pathpiolet.api.RetrofitClient
+import com.simats.pathpiolet.api.EventData
+import com.simats.pathpiolet.api.AuthResponse
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import androidx.compose.ui.platform.LocalContext
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CalendarScreen(
     events: List<Event>,
+    userId: Int,
     onBack: () -> Unit,
     onAddEventClick: (LocalDate) -> Unit,
-    onDeleteEvent: (Event) -> Unit
+    onEventsUpdated: (List<Event>) -> Unit
 ) {
-    var currentMonth by remember { mutableStateOf(YearMonth.of(2026, 2)) }
-    var selectedDate by remember { mutableStateOf(LocalDate.of(2026, 2, 12)) }
+    var currentMonth by remember { mutableStateOf(YearMonth.now()) }
+    var selectedDate by remember { mutableStateOf(LocalDate.now()) }
     var showDeleteDialog by remember { mutableStateOf<Event?>(null) }
+    val context = LocalContext.current
+
+    val refreshEvents = {
+        if (userId != -1) {
+            RetrofitClient.instance.getEvents(userId).enqueue(object : Callback<List<EventData>> {
+                override fun onResponse(call: Call<List<EventData>>, response: Response<List<EventData>>) {
+                    if (response.isSuccessful) {
+                        val fetchedEvents = response.body()?.map { data ->
+                            Event(
+                                id = data.id,
+                                title = data.title,
+                                description = data.description ?: "",
+                                date = LocalDate.parse(data.event_date),
+                                time = data.time ?: ""
+                            )
+                        } ?: emptyList()
+                        onEventsUpdated(fetchedEvents)
+                    }
+                }
+                override fun onFailure(call: Call<List<EventData>>, t: Throwable) {
+                    Toast.makeText(context, "Failed to load events", Toast.LENGTH_SHORT).show()
+                }
+            })
+        }
+    }
+
+    LaunchedEffect(userId) {
+        refreshEvents()
+    }
 
     Scaffold(
         topBar = {
@@ -106,7 +144,13 @@ fun CalendarScreen(
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { onAddEventClick(selectedDate) },
+                onClick = { 
+                    if (selectedDate.isBefore(LocalDate.now())) {
+                        Toast.makeText(context, "Cannot add events for past dates", Toast.LENGTH_SHORT).show()
+                    } else {
+                        onAddEventClick(selectedDate)
+                    }
+                },
                 containerColor = Color(0xFFFBC02D),
                 shape = CircleShape
             ) {
@@ -194,7 +238,18 @@ fun CalendarScreen(
                 confirmButton = {
                     TextButton(
                         onClick = {
-                            onDeleteEvent(showDeleteDialog!!)
+                            val eventToDelete = showDeleteDialog!!
+                            RetrofitClient.instance.deleteEvent(eventToDelete.id).enqueue(object : Callback<AuthResponse> {
+                                override fun onResponse(call: Call<AuthResponse>, response: Response<AuthResponse>) {
+                                    if (response.isSuccessful) {
+                                        refreshEvents()
+                                        Toast.makeText(context, "Event deleted", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                                override fun onFailure(call: Call<AuthResponse>, t: Throwable) {
+                                    Toast.makeText(context, "Delete failed", Toast.LENGTH_SHORT).show()
+                                }
+                            })
                             showDeleteDialog = null
                         },
                         colors = ButtonDefaults.textButtonColors(contentColor = Color.Red)

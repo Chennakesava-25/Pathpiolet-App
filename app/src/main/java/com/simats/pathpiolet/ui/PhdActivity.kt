@@ -33,7 +33,7 @@ class PhdActivity : AppCompatActivity() {
 
         binding.btnCareer.setOnClickListener {
             try {
-                val intent = Intent(this, CareerSuccessActivity::class.java)
+                val intent = Intent(this, CareerActivity::class.java)
                 startActivity(intent)
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
             } catch (e: Exception) {

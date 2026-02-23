@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,23 +25,26 @@ import androidx.compose.ui.unit.sp
 import com.simats.pathpiolet.MainActivity
 import com.simats.pathpiolet.Screen
 import com.simats.pathpiolet.ui.theme.SplashPrimary
+import com.simats.pathpiolet.utils.SessionManager
 
 @Composable
 fun ProfileScreen(onLogout: () -> Unit) {
     val context = LocalContext.current
     val scrollState = rememberScrollState()
+    val sessionManager = SessionManager(context)
+    val username = sessionManager.getUsername()
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFF8F9FE))
+            .background(MaterialTheme.colorScheme.background)
             .verticalScroll(scrollState)
             .padding(24.dp)
     ) {
         // App Header
         Text(
             text = "PathPoilet",
-            color = SplashPrimary,
+            color = Color.Black,
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold
         )
@@ -60,7 +64,7 @@ fun ProfileScreen(onLogout: () -> Unit) {
             ) {
                 Box(contentAlignment = Alignment.Center) {
                     Text(
-                        text = "S",
+                        text = username.take(1).uppercase(),
                         color = Color.White,
                         fontSize = 40.sp,
                         fontWeight = FontWeight.Bold
@@ -71,15 +75,15 @@ fun ProfileScreen(onLogout: () -> Unit) {
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
-                text = "Student",
-                color = SplashPrimary,
+                text = username,
+                color = MaterialTheme.colorScheme.onBackground,
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold
             )
 
             Text(
-                text = "Class 12th Student",
-                color = Color(0xFF7C86A2),
+                text = sessionManager.getEducation().ifBlank { "Student" },
+                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f),
                 fontSize = 14.sp
             )
         }
@@ -91,11 +95,6 @@ fun ProfileScreen(onLogout: () -> Unit) {
             icon = Icons.Outlined.Edit,
             title = "Edit profile",
             onClick = { context.startActivity(Intent(context, EditProfileActivity::class.java)) }
-        )
-        ProfileMenuItem(
-            icon = Icons.Outlined.Info,
-            title = "My QnA",
-            onClick = { context.startActivity(Intent(context, QnaActivity::class.java)) }
         )
         ProfileMenuItem(
             icon = Icons.Outlined.List,
@@ -146,7 +145,7 @@ fun ProfileScreen(onLogout: () -> Unit) {
 fun ProfileMenuItem(
     icon: ImageVector,
     title: String,
-    titleColor: Color = SplashPrimary,
+    titleColor: Color = Color.Black,
     iconContainerColor: Color = Color.White,
     onClick: () -> Unit
 ) {
@@ -156,7 +155,7 @@ fun ProfileMenuItem(
             .padding(vertical = 6.dp)
             .clickable { onClick() },
         shape = RoundedCornerShape(16.dp),
-        color = Color.White,
+        color = MaterialTheme.colorScheme.surface,
         shadowElevation = 1.dp
     ) {
         Row(
@@ -182,7 +181,7 @@ fun ProfileMenuItem(
             
             Text(
                 text = title,
-                color = titleColor,
+                color = if (titleColor == Color.Red) Color.Red else MaterialTheme.colorScheme.onSurface,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Medium,
                 modifier = Modifier.weight(1f)

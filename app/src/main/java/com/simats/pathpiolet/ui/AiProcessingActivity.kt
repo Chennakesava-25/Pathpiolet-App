@@ -23,28 +23,36 @@ class AiProcessingActivity : AppCompatActivity() {
     private fun startProcessing() {
         // Step 1: 0s - 1s
         handler.postDelayed({
+            if (isFinishing || isDestroyed) return@postDelayed
             binding.progressBar.progress = 30
             binding.step1.setTextColor(getColor(android.R.color.holo_blue_dark))
             binding.step2.setTextColor(getColor(android.R.color.darker_gray))
             binding.step3.setTextColor(getColor(android.R.color.darker_gray))
         }, 0)
-
+ 
         // Step 2: 1s - 2s
         handler.postDelayed({
+            if (isFinishing || isDestroyed) return@postDelayed
             binding.progressBar.progress = 60
             binding.step2.setTextColor(getColor(android.R.color.holo_blue_dark))
         }, 1000)
-
+ 
         // Step 3: 2s - 3s
         handler.postDelayed({
+            if (isFinishing || isDestroyed) return@postDelayed
             binding.progressBar.progress = 90
             binding.step3.setTextColor(getColor(android.R.color.holo_blue_dark))
         }, 2000)
-
+ 
         // Finish: 3s
         handler.postDelayed({
+            if (isFinishing || isDestroyed) return@postDelayed
             binding.progressBar.progress = 100
-            val intent = Intent(this, AiResultsActivity::class.java)
+            val intent = Intent(this, AiResultsActivity::class.java).apply {
+                // Forward all extras
+                putExtras(this@AiProcessingActivity.intent)
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+            }
             startActivity(intent)
             finish()
         }, 3000)

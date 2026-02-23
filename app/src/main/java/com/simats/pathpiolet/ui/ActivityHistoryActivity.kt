@@ -44,27 +44,53 @@ class ActivityHistoryActivity : AppCompatActivity() {
         adapter = ActivityHistoryAdapter()
         binding.rvActivityHistory.layoutManager = LinearLayoutManager(this)
         binding.rvActivityHistory.adapter = adapter
-        adapter.updateList(allItems)
+        
+        fetchActivity()
+    }
+
+    private fun fetchActivity() {
+        val userId = com.simats.pathpiolet.utils.SessionManager(this).getUserId()
+        if (userId == -1) return
+
+        com.simats.pathpiolet.api.RetrofitClient.instance.getActivityHistory(userId)
+            .enqueue(object : retrofit2.Callback<List<com.simats.pathpiolet.api.ActivityItem>> {
+                override fun onResponse(
+                    call: retrofit2.Call<List<com.simats.pathpiolet.api.ActivityItem>>,
+                    response: retrofit2.Response<List<com.simats.pathpiolet.api.ActivityItem>>
+                ) {
+                    if (response.isSuccessful) {
+                        val apiItems = response.body() ?: emptyList()
+                        val historyItems = apiItems.map { 
+                            HistoryItem(it.title, it.subtitle, it.time, it.type)
+                        }
+                        adapter.updateList(historyItems)
+                    }
+                }
+
+                override fun onFailure(call: retrofit2.Call<List<com.simats.pathpiolet.api.ActivityItem>>, t: Throwable) {
+                    android.widget.Toast.makeText(this@ActivityHistoryActivity, "Failed to load activity", android.widget.Toast.LENGTH_SHORT).show()
+                }
+            })
     }
 
     private fun setupTabs() {
-        val tabs = listOf(binding.tabAll, binding.tabColleges, binding.tabRoadmaps, binding.tabCalendar)
-        
         binding.tabAll.setOnClickListener { 
             updateTabsUI(binding.tabAll)
-            adapter.updateList(allItems) 
+            fetchActivity() // Re-fetch or filter local list? Let's filter local list for better UX
         }
         binding.tabColleges.setOnClickListener { 
             updateTabsUI(binding.tabColleges)
-            adapter.updateList(allItems.filter { it.type == "College" }) 
+            // Filtering will be handled in adapter or via a property
+            adapter.filterByType("College")
         }
         binding.tabRoadmaps.setOnClickListener { 
             updateTabsUI(binding.tabRoadmaps)
-            adapter.updateList(allItems.filter { it.type == "Roadmap" }) 
+            // Roadmap items are colleges in this context (as per user request)
+            adapter.filterByType("College") 
         }
         binding.tabCalendar.setOnClickListener { 
             updateTabsUI(binding.tabCalendar)
-            adapter.updateList(allItems.filter { it.type == "Calendar" }) 
+            adapter.filterByType("Calendar") 
         }
     }
 
@@ -72,11 +98,11 @@ class ActivityHistoryActivity : AppCompatActivity() {
         val tabs = listOf(binding.tabAll, binding.tabColleges, binding.tabRoadmaps, binding.tabCalendar)
         tabs.forEach { tab ->
             if (tab == selectedTab) {
-                tab.setCardBackgroundColor(ContextCompat.getColor(this, R.color.purple_700)) // Use primary blue
+                tab.setCardBackgroundColor(ContextCompat.getColor(this, R.color.purple_700))
                 (tab.getChildAt(0) as android.widget.TextView).setTextColor(android.graphics.Color.WHITE)
             } else {
-                tab.setCardBackgroundColor(android.graphics.Color.parseColor("#F5F6FA"))
-                (tab.getChildAt(0) as android.widget.TextView).setTextColor(android.graphics.Color.parseColor("#7C86A2"))
+                tab.setCardBackgroundColor(ContextCompat.getColor(this, R.color.app_input_bg))
+                (tab.getChildAt(0) as android.widget.TextView).setTextColor(ContextCompat.getColor(this, R.color.app_text_primary))
             }
         }
     }
@@ -85,11 +111,18 @@ class ActivityHistoryActivity : AppCompatActivity() {
 
     class ActivityHistoryAdapter : RecyclerView.Adapter<ActivityHistoryAdapter.ViewHolder>() {
         private var items: List<HistoryItem> = emptyList()
+        private var fullList: List<HistoryItem> = emptyList()
 
         class ViewHolder(val binding: ItemActivityHistoryBinding) : RecyclerView.ViewHolder(binding.root)
 
         fun updateList(newList: List<HistoryItem>) {
+            fullList = newList
             items = newList
+            notifyDataSetChanged()
+        }
+
+        fun filterByType(type: String?) {
+            items = if (type == null) fullList else fullList.filter { it.type == type }
             notifyDataSetChanged()
         }
 

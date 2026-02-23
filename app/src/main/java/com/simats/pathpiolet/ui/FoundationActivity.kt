@@ -34,7 +34,7 @@ class FoundationActivity : AppCompatActivity() {
 
         // Career Opportunity Clicks
         val careerClickListener = android.view.View.OnClickListener {
-            navigateTo("CareerActivity")
+            navigateTo("CareerSuccessActivity")
         }
 
         binding.itemSoftwareDev.setOnClickListener(careerClickListener)
@@ -45,7 +45,7 @@ class FoundationActivity : AppCompatActivity() {
         binding.itemAppDev.setOnClickListener(careerClickListener)
 
         binding.btnExploreColleges.setOnClickListener {
-            navigateTo("CollegeListingActivity")
+            navigateTo("CollegesActivity")
         }
     }
 

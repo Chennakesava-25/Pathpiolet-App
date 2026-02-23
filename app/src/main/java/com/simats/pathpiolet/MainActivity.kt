@@ -47,12 +47,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 data class Event(
-    val id: String = java.util.UUID.randomUUID().toString(),
+    val id: Int = -1,
     val title: String,
     val description: String = "",
     val date: LocalDate,
@@ -60,20 +61,44 @@ data class Event(
 )
 
 enum class Screen {
-    Splash, Login, SignUp, ForgotPassword, CheckEmail, Home, Colleges, Roadmap, Calendar, Profile, AddEvent
+    Splash, Login, SignUp, ForgotPassword, VerifyOtp, ResetPassword, Home, Colleges, Roadmap, Calendar, Profile, AddEvent
 }
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Force Light Mode globally
+        androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode(androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO)
+        
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             PathPioletTheme {
                 var currentScreen by remember { mutableStateOf(Screen.Splash) }
+                var resetEmail by remember { mutableStateOf("") }
                 var events by remember { mutableStateOf(listOf<Event>()) }
                 var selectedDate by remember { mutableStateOf(LocalDate.now()) }
 
                 val mainTabs = listOf(Screen.Home, Screen.Colleges, Screen.Roadmap, Screen.Calendar, Screen.Profile)
+                val context = LocalContext.current
+                val sessionManager = remember { com.simats.pathpiolet.utils.SessionManager(context) }
+                val userId = sessionManager.getUserId()
+                
+                // Add a refresh trigger to force recomposition when activity is resumed
+                var refreshTrigger by remember { mutableIntStateOf(0) }
+                
+                DisposableEffect(Unit) {
+                    val observer = androidx.lifecycle.LifecycleEventObserver { _, event ->
+                        if (event == androidx.lifecycle.Lifecycle.Event.ON_RESUME) {
+                            refreshTrigger++
+                        }
+                    }
+                    val lifecycle = (context as androidx.activity.ComponentActivity).lifecycle
+                    lifecycle.addObserver(observer)
+                    onDispose {
+                        lifecycle.removeObserver(observer)
+                    }
+                }
+
                 val showBottomBar = currentScreen in mainTabs
 
                 LaunchedEffect(currentScreen) {
@@ -105,9 +130,7 @@ class MainActivity : ComponentActivity() {
                                 )
                                 NavigationBarItem(
                                     selected = currentScreen == Screen.Colleges,
-                                    onClick = {
-                                        startActivity(android.content.Intent(this@MainActivity, com.simats.pathpiolet.ui.CollegesActivity::class.java))
-                                    },
+                                    onClick = { currentScreen = Screen.Colleges },
                                     icon = { Icon(Icons.Outlined.Build, contentDescription = "Colleges") },
                                     label = { Text("Colleges") },
                                     colors = NavigationBarItemDefaults.colors(
@@ -191,39 +214,50 @@ class MainActivity : ComponentActivity() {
                                 onLoginClick = { currentScreen = Screen.Login },
                                 onSignUpSuccess = { currentScreen = Screen.Home }
                             )
-                            Screen.ForgotPassword -> ForgotPasswordScreen(
+                            Screen.ForgotPassword -> com.simats.pathpiolet.ui.ForgotPasswordScreen(
                                 onBackToLogin = { currentScreen = Screen.Login },
-                                onSendResetLink = { currentScreen = Screen.CheckEmail }
+                                onOtpSent = { email ->
+                                    resetEmail = email
+                                    currentScreen = Screen.VerifyOtp
+                                }
                             )
-                            Screen.CheckEmail -> CheckEmailScreen(
-                                onBackToLogin = { currentScreen = Screen.Login }
+                            Screen.VerifyOtp -> com.simats.pathpiolet.ui.VerifyOtpScreen(
+                                email = resetEmail,
+                                onBack = { currentScreen = Screen.ForgotPassword },
+                                onOtpVerified = { currentScreen = Screen.ResetPassword }
+                            )
+                            Screen.ResetPassword -> com.simats.pathpiolet.ui.ResetPasswordScreen(
+                                email = resetEmail,
+                                onPasswordReset = { currentScreen = Screen.Login }
                             )
                             Screen.Home -> HomeScreen(
-                                modifier = Modifier.statusBarsPadding()
+                                modifier = Modifier
                             )
                             Screen.Colleges -> CollegesScreen()
                             Screen.Roadmap -> RoadmapScreen()
                             Screen.Profile -> ProfileScreen(
                                 onLogout = {
+                                    sessionManager.clearSession()
                                     currentScreen = Screen.Login
                                 }
                             )
                             Screen.Calendar -> com.simats.pathpiolet.ui.CalendarScreen(
                                 events = events,
+                                userId = userId,
                                 onBack = { currentScreen = Screen.Home },
                                 onAddEventClick = { date ->
                                     selectedDate = date
                                     currentScreen = Screen.AddEvent
                                 },
-                                onDeleteEvent = { event ->
-                                    events = events.filter { it.id != event.id }
+                                onEventsUpdated = { updatedEvents ->
+                                    events = updatedEvents
                                 }
                             )
                             Screen.AddEvent -> com.simats.pathpiolet.ui.AddEventScreen(
                                 selectedDate = selectedDate,
+                                userId = userId,
                                 onBack = { currentScreen = Screen.Calendar },
-                                onSave = { newEvent ->
-                                    events = (events + newEvent).sortedBy { it.date }
+                                onSaveSuccess = { 
                                     currentScreen = Screen.Calendar
                                 }
                             )

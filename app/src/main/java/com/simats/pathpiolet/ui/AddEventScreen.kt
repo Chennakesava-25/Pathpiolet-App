@@ -21,17 +21,27 @@ import com.simats.pathpiolet.Event
 import com.simats.pathpiolet.ui.theme.SplashPrimary
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import android.widget.Toast
+import com.simats.pathpiolet.api.RetrofitClient
+import com.simats.pathpiolet.api.EventRequest
+import com.simats.pathpiolet.api.AuthResponse
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import androidx.compose.ui.platform.LocalContext
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddEventScreen(
     selectedDate: LocalDate,
+    userId: Int,
     onBack: () -> Unit,
-    onSave: (Event) -> Unit
+    onSaveSuccess: () -> Unit
 ) {
     var title by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
     var time by remember { mutableStateOf("") }
+    val context = LocalContext.current
     
     val scrollState = rememberScrollState()
 
@@ -82,8 +92,32 @@ fun AddEventScreen(
                     
                     Button(
                         onClick = {
-                            if (title.isNotEmpty()) {
-                                onSave(Event(title = title, description = description, date = selectedDate, time = time))
+                            if (selectedDate.isBefore(LocalDate.now())) {
+                                Toast.makeText(context, "Cannot add events for past dates", Toast.LENGTH_SHORT).show()
+                                return@Button
+                            }
+                            
+                            if (title.isNotEmpty() && userId != -1) {
+                                val request = EventRequest(
+                                    user_id = userId,
+                                    title = title,
+                                    description = description,
+                                    event_date = selectedDate.toString(),
+                                    time = time
+                                )
+                                RetrofitClient.instance.addEvent(request).enqueue(object : Callback<AuthResponse> {
+                                    override fun onResponse(call: Call<AuthResponse>, response: Response<AuthResponse>) {
+                                        if (response.isSuccessful) {
+                                            Toast.makeText(context, "Event Saved", Toast.LENGTH_SHORT).show()
+                                            onSaveSuccess()
+                                        } else {
+                                            Toast.makeText(context, "Save failed", Toast.LENGTH_SHORT).show()
+                                        }
+                                    }
+                                    override fun onFailure(call: Call<AuthResponse>, t: Throwable) {
+                                        Toast.makeText(context, "Network error", Toast.LENGTH_SHORT).show()
+                                    }
+                                })
                             }
                         },
                         enabled = title.isNotEmpty(),
@@ -147,7 +181,9 @@ fun AddEventScreen(
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedContainerColor = Color.White,
                     unfocusedContainerColor = Color.White,
-                    unfocusedBorderColor = Color(0xFFE0E0E0)
+                    unfocusedBorderColor = Color(0xFFE0E0E0),
+                    focusedTextColor = Color.Black,
+                    unfocusedTextColor = Color.Black
                 )
             )
 
@@ -170,7 +206,9 @@ fun AddEventScreen(
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedContainerColor = Color.White,
                     unfocusedContainerColor = Color.White,
-                    unfocusedBorderColor = Color(0xFFE0E0E0)
+                    unfocusedBorderColor = Color(0xFFE0E0E0),
+                    focusedTextColor = Color.Black,
+                    unfocusedTextColor = Color.Black
                 )
             )
 
@@ -194,7 +232,9 @@ fun AddEventScreen(
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedContainerColor = Color.White,
                     unfocusedContainerColor = Color.White,
-                    unfocusedBorderColor = Color(0xFFE0E0E0)
+                    unfocusedBorderColor = Color(0xFFE0E0E0),
+                    focusedTextColor = Color.Black,
+                    unfocusedTextColor = Color.Black
                 )
             )
             

@@ -14,6 +14,13 @@ import androidx.core.widget.addTextChangedListener
 import com.simats.pathpiolet.R
 import com.simats.pathpiolet.databinding.ActivityFeedbackBinding
 import com.simats.pathpiolet.databinding.DialogFeedbackSuccessBinding
+import com.simats.pathpiolet.api.RetrofitClient
+import com.simats.pathpiolet.api.FeedbackRequest
+import com.simats.pathpiolet.api.AuthResponse
+import com.simats.pathpiolet.utils.SessionManager
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class SendFeedbackActivity : AppCompatActivity() {
 
@@ -32,7 +39,7 @@ class SendFeedbackActivity : AppCompatActivity() {
         setupMessageCounter()
         
         binding.btnSubmit.setOnClickListener {
-            showSuccessDialog()
+            submitFeedback()
         }
     }
 
@@ -71,6 +78,43 @@ class SendFeedbackActivity : AppCompatActivity() {
                 binding.tvCharCount.setTextColor(Color.parseColor("#C0C0C0"))
             }
         }
+    }
+
+    private fun submitFeedback() {
+        val sessionManager = SessionManager(this)
+        val userId = sessionManager.getUserId()
+        if (userId == -1) {
+            Toast.makeText(this, "Session expired, please login again", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val message = binding.etFeedbackMessage.text.toString()
+        if (message.isEmpty()) {
+            Toast.makeText(this, "Please enter your feedback", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        binding.btnSubmit.isEnabled = false
+        binding.btnSubmit.text = "Sending..."
+
+        val request = FeedbackRequest(userId, message)
+        RetrofitClient.instance.sendFeedback(request).enqueue(object : Callback<AuthResponse> {
+            override fun onResponse(call: Call<AuthResponse>, response: Response<AuthResponse>) {
+                binding.btnSubmit.isEnabled = true
+                binding.btnSubmit.text = "Send Feedback"
+                if (response.isSuccessful) {
+                    showSuccessDialog()
+                } else {
+                    Toast.makeText(this@SendFeedbackActivity, "Error: ${response.message()}", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<AuthResponse>, t: Throwable) {
+                binding.btnSubmit.isEnabled = true
+                binding.btnSubmit.text = "Send Feedback"
+                Toast.makeText(this@SendFeedbackActivity, "Network Error: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     private fun showSuccessDialog() {
