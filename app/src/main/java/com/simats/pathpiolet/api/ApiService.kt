@@ -28,6 +28,9 @@ interface ApiService {
     @POST("api/auth/register")
     fun register(@Body request: RegisterRequest): Call<AuthResponse>
 
+    @POST("api/auth/verify-signup")
+    fun verifySignup(@Body request: VerifyOtpRequest): Call<AuthResponse>
+
     @GET("api/auth/profile/{user_id}")
     fun getProfile(@retrofit2.http.Path("user_id") userId: Int): Call<UserData>
 
@@ -36,6 +39,16 @@ interface ApiService {
         @retrofit2.http.Path("user_id") userId: Int,
         @Body request: UpdateProfileRequest
     ): Call<AuthResponse>
+
+    @retrofit2.http.Multipart
+    @POST("api/auth/profile/{user_id}/photo")
+    fun uploadProfilePhoto(
+        @retrofit2.http.Path("user_id") userId: Int,
+        @retrofit2.http.Part photo: okhttp3.MultipartBody.Part
+    ): Call<AuthResponse>
+
+    @DELETE("api/auth/profile/{user_id}/photo")
+    fun deleteProfilePhoto(@retrofit2.http.Path("user_id") userId: Int): Call<AuthResponse>
 
     @GET("api/events/{user_id}")
     fun getEvents(@retrofit2.http.Path("user_id") userId: Int): Call<List<EventData>>

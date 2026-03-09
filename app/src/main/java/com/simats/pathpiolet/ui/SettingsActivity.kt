@@ -17,8 +17,9 @@ import com.simats.pathpiolet.databinding.ActivitySettingsBinding
 import com.simats.pathpiolet.databinding.DialogDeleteAccountConfirmBinding
 import com.simats.pathpiolet.databinding.DialogLogoutConfirmBinding
 import com.simats.pathpiolet.databinding.DialogPrivacyDetailsBinding
+import com.simats.pathpiolet.utils.SessionManager
 
-class SettingsActivity : AppCompatActivity() {
+class SettingsActivity : BaseActivity() {
 
     private lateinit var binding: ActivitySettingsBinding
     private val PREFS_NAME = "pathpiolet_prefs"
@@ -33,7 +34,7 @@ class SettingsActivity : AppCompatActivity() {
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.btnBack.setOnClickListener { finish() }
+        binding.btnBack.root.setOnClickListener { finish() }
 
         setupPreferences()
         setupSecurity()
@@ -42,7 +43,12 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun setupPreferences() {
-        // Theme and Password settings removed per request
+        val sessionManager = SessionManager(this)
+        binding.switchNotifications.isChecked = sessionManager.isNotificationsEnabled()
+        
+        binding.switchNotifications.setOnCheckedChangeListener { _, isChecked ->
+            sessionManager.setNotificationsEnabled(isChecked)
+        }
     }
 
     private fun setupSecurity() {

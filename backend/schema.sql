@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS users (
     age INT,
     education_level VARCHAR(100),
     interested_field VARCHAR(100),
+    profile_picture VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -46,6 +47,7 @@ CREATE TABLE IF NOT EXISTS colleges (
     nirf_rank INT,
     fees VARCHAR(100),
     avg_package VARCHAR(100),
+    description TEXT,
     tags TEXT
 );
 
@@ -99,6 +101,19 @@ CREATE TABLE IF NOT EXISTS user_saved_colleges (
     UNIQUE KEY unique_user_college (user_id, college_id)
 );
 
+-- Temporary Registrations Table
+CREATE TABLE IF NOT EXISTS temp_registrations (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    phone VARCHAR(20),
+    age INT,
+    otp_code VARCHAR(6) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    expires_at TIMESTAMP DEFAULT (CURRENT_TIMESTAMP + INTERVAL 15 MINUTE)
+);
+
 -- User Feedback Table
 CREATE TABLE IF NOT EXISTS user_feedback (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -128,13 +143,13 @@ CREATE TABLE IF NOT EXISTS contact_requests (
 );
 
 -- Insert 100 Colleges
-INSERT INTO colleges (name, city, state, score, nirf_rank, fees, avg_package, tags) VALUES 
-('Indian Institute of Science', 'Bengaluru', 'Karnataka', 85.05, 1, '₹ 3L/yr', '₹ 25 LPA', 'Government, Research'),
-('Jawaharlal Nehru University', 'New Delhi', 'Delhi', 71.00, 2, '₹ 20K/yr', '₹ 12 LPA', 'Government, Arts'),
-('Manipal Academy of Higher Education', 'Manipal', 'Karnataka', 69.25, 3, '₹ 4.5L/yr', '₹ 8 LPA', 'Private, Engineering'),
-('Jamia Millia Islamia', 'New Delhi', 'Delhi', 69.10, 4, '₹ 35K/yr', '₹ 9 LPA', 'Government, Minority'),
-('University of Delhi', 'Delhi', 'Delhi', 67.38, 5, '₹ 25K/yr', '₹ 10 LPA', 'Government, Central'),
-('Banaras Hindu University', 'Varanasi', 'Uttar Pradesh', 67.28, 6, '₹ 30K/yr', '₹ 11 LPA', 'Government, Central'),
+INSERT INTO colleges (name, city, state, score, nirf_rank, fees, avg_package, description, tags) VALUES 
+('Indian Institute of Science', 'Bengaluru', 'Karnataka', 85.05, 1, '₹ 3L/yr', '₹ 25 LPA', 'The Indian Institute of Science (IISc) is a public, deemed, research university for higher education and research in science, engineering, design, and management. It is located in Bengaluru, in the Indian city of Karnataka.', 'Government, Research'),
+('Jawaharlal Nehru University', 'New Delhi', 'Delhi', 71.00, 2, '₹ 20K/yr', '₹ 12 LPA', 'Jawaharlal Nehru University is a public research university located in New Delhi, India. It was established in 1969 and named after Jawaharlal Nehru, India s first Prime Minister.', 'Government, Arts'),
+('Manipal Academy of Higher Education', 'Manipal', 'Karnataka', 69.25, 3, '₹ 4.5L/yr', '₹ 8 LPA', 'Manipal Academy of Higher Education (MAHE) is a private deemed university located in Manipal, India. The university also has campuses in Mangalore, Bangalore, Jamshedpur, Malacca and Dubai.', 'Private, Engineering'),
+('Jamia Millia Islamia', 'New Delhi', 'Delhi', 69.10, 4, '₹ 35K/yr', '₹ 9 LPA', 'Jamia Millia Islamia is a central university located in New Delhi, India. Originally established at Aligarh, United Provinces, India during the British Raj in 1920.', 'Government, Minority'),
+('University of Delhi', 'Delhi', 'Delhi', 67.38, 5, '₹ 25K/yr', '₹ 10 LPA', 'The University of Delhi, informally known as Delhi University (DU), is a collegiate central university located in New Delhi, India. It was founded in 1922 by an Act of the Central Legislative Assembly.', 'Government, Central'),
+('Banaras Hindu University', 'Varanasi', 'Uttar Pradesh', 67.28, 6, '₹ 30K/yr', '₹ 11 LPA', 'Banaras Hindu University (BHU), formerly Central Hindu College, is a central university located in Varanasi, Uttar Pradesh. It was established in 1916.', 'Government, Central'),
 ('BITS Pilani', 'Pilani', 'Rajasthan', 67.24, 7, '₹ 5.5L/yr', '₹ 18 LPA', 'Private, Engineering'),
 ('Amrita Vishwa Vidyapeetham', 'Coimbatore', 'Tamil Nadu', 67.05, 8, '₹ 3.5L/yr', '₹ 7.5 LPA', 'Private, Engineering'),
 ('Jadavpur University', 'Kolkata', 'West Bengal', 65.42, 9, '₹ 15K/yr', '₹ 14 LPA', 'Government, State'),

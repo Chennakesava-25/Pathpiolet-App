@@ -6,7 +6,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.simats.pathpiolet.databinding.ActivityPreparationBinding
 
-class PreparationActivity : AppCompatActivity() {
+class PreparationActivity : BaseActivity() {
 
     private lateinit var binding: ActivityPreparationBinding
 
@@ -33,7 +33,7 @@ class PreparationActivity : AppCompatActivity() {
     }
 
     private fun setupClickListeners() {
-        binding.btnBack.setOnClickListener {
+        binding.btnBack.root.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
             overridePendingTransition(com.simats.pathpiolet.R.anim.slide_in_left, com.simats.pathpiolet.R.anim.slide_out_right)
         }
@@ -44,9 +44,9 @@ class PreparationActivity : AppCompatActivity() {
         binding.cardUniversityExams.setOnClickListener { navigateTo("ExamDetailActivity") }
 
         // Subjects
-        binding.cardMaths.setOnClickListener { navigateTo("SubjectDetailActivity") }
-        binding.cardPhysics.setOnClickListener { navigateTo("SubjectDetailActivity") }
-        binding.cardChemistry.setOnClickListener { navigateTo("SubjectDetailActivity") }
+        binding.cardMaths.setOnClickListener { navigateTo("MathematicsActivity") }
+        binding.cardPhysics.setOnClickListener { navigateTo("PhysicsActivity") }
+        binding.cardChemistry.setOnClickListener { navigateTo("ChemistryActivity") }
 
         // Next Button
         binding.btnNextGraduation.setOnClickListener {

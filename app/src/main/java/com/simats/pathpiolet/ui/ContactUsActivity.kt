@@ -23,7 +23,7 @@ import retrofit2.Response
 import android.util.Log
 import android.widget.Toast
 
-class ContactUsActivity : AppCompatActivity() {
+class ContactUsActivity : BaseActivity() {
 
     private lateinit var binding: ActivityContactUsBinding
 
@@ -33,9 +33,10 @@ class ContactUsActivity : AppCompatActivity() {
         binding = ActivityContactUsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.btnBack.setOnClickListener { finish() }
+        binding.btnBack.root.setOnClickListener { finish() }
 
         setupForm()
+        preFillUserData()
         
         binding.btnSubmitContact.setOnClickListener {
             if (validateForm()) {
@@ -125,11 +126,27 @@ class ContactUsActivity : AppCompatActivity() {
         }, 2000)
     }
 
+    private fun preFillUserData() {
+        val sessionManager = SessionManager(this)
+        val username = sessionManager.getUsername()
+        val email = sessionManager.getEmail()
+        
+        if (username != "Student") {
+            binding.etContactName.setText(username)
+        }
+        if (email.isNotEmpty()) {
+            binding.etContactEmail.setText(email)
+            binding.etContactEmail.isEnabled = false
+            binding.etContactEmail.isFocusable = false
+        }
+    }
+
     private fun clearFields() {
         binding.etContactName.text.clear()
         binding.etContactEmail.text.clear()
         binding.etContactSubject.text.clear()
         binding.etContactMessage.text.clear()
+        preFillUserData() // Restore pre-filled data after clearing
         setupForm() // Reset button state
     }
 }

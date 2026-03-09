@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.simats.pathpiolet.R
 import com.simats.pathpiolet.databinding.ActivityRoadmapBinding
 
-class RoadmapActivity : AppCompatActivity() {
+class RoadmapActivity : BaseActivity() {
 
     private lateinit var binding: ActivityRoadmapBinding
 
@@ -27,7 +27,7 @@ class RoadmapActivity : AppCompatActivity() {
     }
 
     private fun setupHeader() {
-        binding.btnBack.setOnClickListener {
+        binding.btnBack.root.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
     }
@@ -106,7 +106,17 @@ class RoadmapActivity : AppCompatActivity() {
         try {
             val intent = Intent(this, Class.forName("com.simats.pathpiolet.ui.$activityName"))
             startActivity(intent)
-            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+            
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                overrideActivityTransition(
+                    android.app.Activity.OVERRIDE_TRANSITION_OPEN,
+                    R.anim.slide_in_right,
+                    R.anim.slide_out_left
+                )
+            } else {
+                @Suppress("DEPRECATION")
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+            }
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -164,6 +174,25 @@ class RoadmapActivity : AppCompatActivity() {
 
             holder.ivIcon.setImageResource(item.iconResId)
             holder.viewIconBg.setBackgroundResource(item.backgroundDrawableResId)
+
+            // Like Button Logic
+            val btnLike: ImageView = holder.itemView.findViewById(R.id.btnLike)
+            fun updateLikeIcon() {
+                val isLiked = com.simats.pathpiolet.data.SavedItemManager.isLiked(holder.itemView.context, "Roadmap", item.title)
+                if (isLiked) {
+                    btnLike.setImageResource(android.R.drawable.btn_star_big_on)
+                    btnLike.setColorFilter(androidx.core.content.ContextCompat.getColor(holder.itemView.context, R.color.splash_primary))
+                } else {
+                    btnLike.setImageResource(android.R.drawable.btn_star_big_off)
+                    btnLike.setColorFilter(android.graphics.Color.GRAY)
+                }
+            }
+            updateLikeIcon()
+
+            btnLike.setOnClickListener {
+                com.simats.pathpiolet.data.SavedItemManager.toggleLike(holder.itemView.context, "Roadmap", item.title)
+                updateLikeIcon()
+            }
 
             // Click Listeners
             holder.itemView.setOnClickListener { onItemClick(item.targetActivityName) }

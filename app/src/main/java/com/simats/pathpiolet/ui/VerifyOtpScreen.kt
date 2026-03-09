@@ -3,24 +3,23 @@ package com.simats.pathpiolet.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.simats.pathpiolet.ui.theme.SplashPrimary
 import com.simats.pathpiolet.ui.theme.SplashTagline
-import android.widget.Toast
-import androidx.compose.ui.platform.LocalContext
 import com.simats.pathpiolet.api.RetrofitClient
 import com.simats.pathpiolet.api.VerifyOtpRequest
 import com.simats.pathpiolet.api.AuthResponse
+import android.widget.Toast
+import com.simats.pathpiolet.ui.components.StandardBackButton
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -29,12 +28,15 @@ import retrofit2.Response
 @Composable
 fun VerifyOtpScreen(
     email: String,
+    isFromSignUp: Boolean = false,
     onBack: () -> Unit,
-    onOtpVerified: () -> Unit
+    onOtpVerified: () -> Unit,
+    onSignUpSuccess: () -> Unit = {}
 ) {
     var otp by remember { mutableStateOf("") }
     var isLoading by remember { mutableStateOf(false) }
     val context = LocalContext.current
+    val sessionManager = remember { com.simats.pathpiolet.utils.SessionManager(context) }
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -53,17 +55,38 @@ fun VerifyOtpScreen(
                     .padding(top = 16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                IconButton(onClick = onBack) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = "Back",
-                        tint = SplashPrimary
-                    )
-                }
-                Text("Verify OTP", color = SplashPrimary, fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                StandardBackButton(onClick = onBack)
+                
+                Spacer(modifier = Modifier.width(8.dp))
+                
+                Text(
+                    text = if (isFromSignUp) "Verify Registration" else "Verify OTP", 
+                    color = SplashPrimary, 
+                    fontSize = 18.sp, 
+                    fontWeight = FontWeight.Bold
+                )
             }
 
-            Spacer(modifier = Modifier.height(60.dp))
+            Spacer(modifier = Modifier.height(32.dp))
+
+            // Logo
+            Surface(
+                modifier = Modifier.size(70.dp),
+                shape = RoundedCornerShape(16.dp),
+                color = SplashPrimary,
+                shadowElevation = 4.dp
+            ) {
+                Box(contentAlignment = Alignment.Center) {
+                    Text(
+                        text = "PP",
+                        color = Color.White,
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
 
             Text(
                 text = "Enter OTP",
@@ -105,13 +128,43 @@ fun VerifyOtpScreen(
                 onClick = {
                     if (otp.length == 6) {
                         isLoading = true
-                        RetrofitClient.instance.verifyOtp(VerifyOtpRequest(email, otp)).enqueue(object : Callback<AuthResponse> {
+                        val apiCall = if (isFromSignUp) {
+                            RetrofitClient.instance.verifySignup(VerifyOtpRequest(email, otp))
+                        } else {
+                            RetrofitClient.instance.verifyOtp(VerifyOtpRequest(email, otp))
+                        }
+
+                        apiCall.enqueue(object : Callback<AuthResponse> {
                             override fun onResponse(call: Call<AuthResponse>, response: Response<AuthResponse>) {
                                 isLoading = false
                                 if (response.isSuccessful) {
-                                    onOtpVerified()
+                                    if (isFromSignUp) {
+                                        val authResponse = response.body()
+                                        authResponse?.user?.let { user ->
+                                            sessionManager.saveUser(
+                                                user.id, 
+                                                user.username, 
+                                                user.email, 
+                                                user.phone, 
+                                                user.age, 
+                                                user.education_level, 
+                                                user.interested_field
+                                            )
+                                        }
+                                        Toast.makeText(context, "Registration Successful", Toast.LENGTH_SHORT).show()
+                                        onSignUpSuccess()
+                                    } else {
+                                        onOtpVerified()
+                                    }
                                 } else {
-                                    Toast.makeText(context, response.body()?.error ?: "Invalid OTP", Toast.LENGTH_SHORT).show()
+                                    val errorMsg = try {
+                                        val errorBody = response.errorBody()?.string()
+                                        val jsonObject = com.google.gson.JsonParser().parse(errorBody).asJsonObject
+                                        jsonObject.get("error")?.getAsString() ?: "Invalid OTP"
+                                    } catch (e: Exception) {
+                                        "Invalid OTP"
+                                    }
+                                    Toast.makeText(context, errorMsg, Toast.LENGTH_SHORT).show()
                                 }
                             }
                             override fun onFailure(call: Call<AuthResponse>, t: Throwable) {

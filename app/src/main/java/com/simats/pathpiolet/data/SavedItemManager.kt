@@ -6,13 +6,17 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.simats.pathpiolet.data.College
 
-object SavedCollegeManager {
-    private const val PREF_NAME = "saved_colleges_pref"
+object SavedItemManager {
+    private const val PREF_NAME = "saved_items_pref"
     private const val KEY_SAVED_COLLEGES = "saved_colleges_list"
+    private const val KEY_SAVED_ROADMAPS = "saved_roadmaps_ids"
+    private const val KEY_SAVED_CAREERS = "saved_careers_ids"
 
     private fun getPrefs(context: Context): SharedPreferences {
         return context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
     }
+
+    // --- Colleges (Legacy Support) ---
 
     fun saveCollege(context: Context, userId: Int, college: College) {
         val savedList = getSavedColleges(context).toMutableList()
@@ -70,5 +74,37 @@ object SavedCollegeManager {
         val json = Gson().toJson(list)
         editor.putString(KEY_SAVED_COLLEGES, json)
         editor.apply()
+    }
+
+    // --- Generic Items (Roadmaps, Careers) ---
+
+    fun toggleLike(context: Context, type: String, itemId: String): Boolean {
+        val key = when(type) {
+            "Roadmap" -> KEY_SAVED_ROADMAPS
+            "Career" -> KEY_SAVED_CAREERS
+            else -> return false
+        }
+        val prefs = getPrefs(context)
+        val savedSet = prefs.getStringSet(key, mutableSetOf())?.toMutableSet() ?: mutableSetOf()
+        
+        val isLiked = if (savedSet.contains(itemId)) {
+            savedSet.remove(itemId)
+            false
+        } else {
+            savedSet.add(itemId)
+            true
+        }
+        
+        prefs.edit().putStringSet(key, savedSet).apply()
+        return isLiked
+    }
+
+    fun isLiked(context: Context, type: String, itemId: String): Boolean {
+        val key = when(type) {
+            "Roadmap" -> KEY_SAVED_ROADMAPS
+            "Career" -> KEY_SAVED_CAREERS
+            else -> return false
+        }
+        return getPrefs(context).getStringSet(key, emptySet())?.contains(itemId) == true
     }
 }

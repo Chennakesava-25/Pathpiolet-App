@@ -16,7 +16,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class AiResultsActivity : AppCompatActivity() {
+class AiResultsActivity : BaseActivity() {
 
     private lateinit var binding: ActivityAiResultsBinding
     private lateinit var adapter: AiCollegeAdapter
@@ -26,7 +26,7 @@ class AiResultsActivity : AppCompatActivity() {
         binding = ActivityAiResultsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.btnBack.setOnClickListener { finish() }
+        binding.btnBack.root.setOnClickListener { finish() }
 
         fetchRecommendations()
     }

@@ -15,7 +15,7 @@ import com.google.android.material.chip.Chip
 import com.simats.pathpiolet.R
 import com.simats.pathpiolet.databinding.ActivityGraduationBinding
 
-class GraduationActivity : AppCompatActivity() {
+class GraduationActivity : BaseActivity() {
 
     private lateinit var binding: ActivityGraduationBinding
 
@@ -30,7 +30,7 @@ class GraduationActivity : AppCompatActivity() {
     }
 
     private fun setupListeners() {
-        binding.btnBack.setOnClickListener {
+        binding.btnBack.root.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
 

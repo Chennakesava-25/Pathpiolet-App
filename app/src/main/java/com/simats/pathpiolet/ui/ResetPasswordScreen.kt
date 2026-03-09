@@ -107,7 +107,17 @@ fun ResetPasswordScreen(
 
             Button(
                 onClick = {
-                    if (password.isNotEmpty() && password == confirmPassword) {
+                    if (password.isBlank()) {
+                        Toast.makeText(context, "Please enter a new password", Toast.LENGTH_SHORT).show()
+                    } else if (password.length < 8) {
+                        Toast.makeText(context, "Password must be at least 8 characters", Toast.LENGTH_SHORT).show()
+                    } else if (!password.any { it.isUpperCase() }) {
+                        Toast.makeText(context, "Password must contain at least one uppercase letter", Toast.LENGTH_SHORT).show()
+                    } else if (!password.any { it.isDigit() }) {
+                        Toast.makeText(context, "Password must contain at least one number", Toast.LENGTH_SHORT).show()
+                    } else if (password != confirmPassword) {
+                        Toast.makeText(context, "Passwords do not match", Toast.LENGTH_SHORT).show()
+                    } else {
                         isLoading = true
                         RetrofitClient.instance.resetPassword(ResetPasswordRequest(email, password)).enqueue(object : Callback<AuthResponse> {
                             override fun onResponse(call: Call<AuthResponse>, response: Response<AuthResponse>) {
@@ -124,8 +134,6 @@ fun ResetPasswordScreen(
                                 Toast.makeText(context, "Network error", Toast.LENGTH_SHORT).show()
                             }
                         })
-                    } else if (password != confirmPassword) {
-                        Toast.makeText(context, "Passwords do not match", Toast.LENGTH_SHORT).show()
                     }
                 },
                 modifier = Modifier

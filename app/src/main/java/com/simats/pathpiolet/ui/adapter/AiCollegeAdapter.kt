@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.simats.pathpiolet.data.College
-import com.simats.pathpiolet.data.SavedCollegeManager
+import com.simats.pathpiolet.data.SavedItemManager
 import com.simats.pathpiolet.databinding.ItemAiCollegeBinding
 import android.graphics.Color
 import com.simats.pathpiolet.R
@@ -31,6 +31,14 @@ class AiCollegeAdapter(
             tvPackage.text = college.avgPackage ?: "N/A"
             badgeMatch.text = "${college.matchScore}% Match"
             
+            // NIRF Rank Badge
+            if (college.nirfRank > 0) {
+                tvRankBadge.visibility = android.view.View.VISIBLE
+                tvRankBadge.text = "NIRF Rank: #${college.nirfRank}"
+            } else {
+                tvRankBadge.visibility = android.view.View.GONE
+            }
+            
             // Render Tags dynamically
             chipGroupTags.removeAllViews()
             college.tags?.forEach { tag ->
@@ -55,12 +63,12 @@ class AiCollegeAdapter(
             
             btnSave.setOnClickListener {
                 val userId = com.simats.pathpiolet.utils.SessionManager(root.context).getUserId()
-                if (SavedCollegeManager.isSaved(root.context, college)) {
-                    SavedCollegeManager.removeCollege(root.context, userId, college)
+                if (SavedItemManager.isSaved(root.context, college)) {
+                    SavedItemManager.removeCollege(root.context, userId, college)
                     college.isSaved = false
                     Toast.makeText(root.context, "Removed from Saved", Toast.LENGTH_SHORT).show()
                 } else {
-                    SavedCollegeManager.saveCollege(root.context, userId, college)
+                    SavedItemManager.saveCollege(root.context, userId, college)
                     college.isSaved = true
                     Toast.makeText(root.context, "College Saved Successfully", Toast.LENGTH_SHORT).show()
                 }
@@ -71,15 +79,15 @@ class AiCollegeAdapter(
     
     // Helper to update save icon visual state
     private fun updateSaveIcon(binding: ItemAiCollegeBinding, college: College) {
-        val isSaved = SavedCollegeManager.isSaved(binding.root.context, college)
+        val isSaved = SavedItemManager.isSaved(binding.root.context, college)
         // Note: Using ic_search as placeholder for bookmark if not available, ideally should be bookmark icon
         // Assuming we need to use existing or standard drawable. 
         // Using localized check
         if (isSaved) {
-             binding.btnSave.setIconResource(android.R.drawable.star_big_on)
+             binding.btnSave.setIconResource(android.R.drawable.btn_star_big_on)
              binding.btnSave.setIconTintResource(R.color.splash_primary)
         } else {
-             binding.btnSave.setIconResource(android.R.drawable.star_big_off)
+             binding.btnSave.setIconResource(android.R.drawable.btn_star_big_off)
              binding.btnSave.setIconTintResource(android.R.color.darker_gray)
         }
     }

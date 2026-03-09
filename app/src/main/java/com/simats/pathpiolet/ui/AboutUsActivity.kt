@@ -9,7 +9,7 @@ import com.simats.pathpiolet.R
 import com.simats.pathpiolet.databinding.ActivityAboutUsBinding
 import com.simats.pathpiolet.databinding.ItemAboutOfferBinding
 
-class AboutUsActivity : AppCompatActivity() {
+class AboutUsActivity : BaseActivity() {
 
     private lateinit var binding: ActivityAboutUsBinding
 
@@ -19,7 +19,7 @@ class AboutUsActivity : AppCompatActivity() {
         binding = ActivityAboutUsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.btnBack.setOnClickListener { finish() }
+        binding.btnBack.root.setOnClickListener { finish() }
 
         setupOfferings()
         setupLegalLinks()

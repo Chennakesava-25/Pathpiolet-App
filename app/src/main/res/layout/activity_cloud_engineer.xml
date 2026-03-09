@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F9FF"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="32dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <include
+                android:id="@+id/btnBack"
+                layout="@layout/layout_back_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tvToolbarTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="Cloud Engineer"
+                android:textColor="@color/roadmap_primary"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView style="@style/SectionHeaderStyle" android:text="Overview" />
+            <androidx.cardview.widget.CardView style="@style/ContentCardStyle">
+                <TextView style="@style/ContentTextStyle" android:text="Designs, implements, and manages cloud-based infrastructure and services." />
+            </androidx.cardview.widget.CardView>
+
+            <TextView style="@style/SectionHeaderStyle" android:text="Technical Skills" />
+            <androidx.cardview.widget.CardView style="@style/ContentCardStyle">
+                <TextView style="@style/ContentTextStyle" android:text="• AWS / Azure / Google Cloud\n• Networking (VPC, DNS, Load Balancers)\n• Identity &amp; Access Management (IAM)\n• Cloud Storage / Compute (S3, EC2)\n• Serverless Computing (Lambda)\n• Cloud Security Best Practices" />
+            </androidx.cardview.widget.CardView>
+
+            <TextView style="@style/SectionHeaderStyle" android:text="Roadmap" />
+            <androidx.cardview.widget.CardView style="@style/ContentCardStyle">
+                <TextView style="@style/ContentTextStyle" android:text="Year 1 → Basic Networking &amp; Compute\nYear 2 → Cloud Provider Fundamentals\nYear 3 → Scalability &amp; Cloud Security\nYear 4 → Multi-cloud Strategies &amp; Advanced Projects" />
+            </androidx.cardview.widget.CardView>
+
+            <TextView style="@style/SectionHeaderStyle" android:text="Projects" />
+            <androidx.cardview.widget.CardView style="@style/ContentCardStyle">
+                <TextView style="@style/ContentTextStyle" android:text="• Highly Available Website on Cloud\n• Serverless Image Processor\n• Cloud Backup &amp; Recovery Plan" />
+            </androidx.cardview.widget.CardView>
+
+            <TextView style="@style/SectionHeaderStyle" android:text="Salary" />
+            <androidx.cardview.widget.CardView style="@style/ContentCardStyle">
+                <TextView style="@style/ContentTextStyle" android:text="• Fresher → ₹4–7 LPA\n• Mid → ₹10–20 LPA\n• Senior → ₹28+ LPA" />
+            </androidx.cardview.widget.CardView>
+
+            <TextView style="@style/SectionHeaderStyle" android:text="Growth" />
+            <androidx.cardview.widget.CardView style="@style/ContentCardStyle">
+                <TextView style="@style/ContentTextStyle" android:text="Cloud Intern → Cloud Engineer → Senior Cloud Architect → Cloud Platform Lead" />
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

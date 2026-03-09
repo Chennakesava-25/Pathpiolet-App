@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.simats.pathpiolet.databinding.ActivityFoundationBinding
 
-class FoundationActivity : AppCompatActivity() {
+class FoundationActivity : BaseActivity() {
 
     private lateinit var binding: ActivityFoundationBinding
 
@@ -23,7 +23,7 @@ class FoundationActivity : AppCompatActivity() {
     }
 
     private fun setupClickListeners() {
-        binding.btnBack.setOnClickListener {
+        binding.btnBack.root.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
             overridePendingTransition(com.simats.pathpiolet.R.anim.slide_in_left, com.simats.pathpiolet.R.anim.slide_out_right)
         }

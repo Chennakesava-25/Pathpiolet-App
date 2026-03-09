@@ -14,9 +14,11 @@ class SessionManager(context: Context) {
         private const val KEY_AGE = "age"
         private const val KEY_EDUCATION = "education_level"
         private const val KEY_INTERESTED = "interested_field"
+        private const val KEY_PROFILE_PIC = "profile_picture"
+        private const val KEY_NOTIFICATIONS = "notifications_enabled"
     }
 
-    fun saveUser(userId: Int, username: String, email: String, phone: String? = null, age: Int? = null, education: String? = null, interested: String? = null) {
+    fun saveUser(userId: Int, username: String, email: String, phone: String? = null, age: Int? = null, education: String? = null, interested: String? = null, profilePic: String? = null) {
         prefs.edit().apply {
             putInt(KEY_USER_ID, userId)
             putString(KEY_USERNAME, username)
@@ -25,6 +27,7 @@ class SessionManager(context: Context) {
             age?.let { putInt(KEY_AGE, it) }
             putString(KEY_EDUCATION, education)
             putString(KEY_INTERESTED, interested)
+            putString(KEY_PROFILE_PIC, profilePic)
             apply()
         }
     }
@@ -51,6 +54,17 @@ class SessionManager(context: Context) {
     fun getAge(): Int = prefs.getInt(KEY_AGE, 0)
     fun getEducation(): String = prefs.getString(KEY_EDUCATION, "") ?: ""
     fun getInterested(): String = prefs.getString(KEY_INTERESTED, "") ?: ""
+    fun getProfilePicture(): String? = prefs.getString(KEY_PROFILE_PIC, null)
+
+    fun saveProfilePicture(url: String) {
+        prefs.edit().putString(KEY_PROFILE_PIC, url).apply()
+    }
+
+    fun setNotificationsEnabled(enabled: Boolean) {
+        prefs.edit().putBoolean(KEY_NOTIFICATIONS, enabled).apply()
+    }
+
+    fun isNotificationsEnabled(): Boolean = prefs.getBoolean(KEY_NOTIFICATIONS, true)
 
     fun clearSession() {
         prefs.edit().clear().apply()

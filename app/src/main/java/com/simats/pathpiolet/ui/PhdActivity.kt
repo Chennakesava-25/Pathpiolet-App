@@ -12,7 +12,7 @@ import androidx.core.content.ContextCompat
 import com.simats.pathpiolet.R
 import com.simats.pathpiolet.databinding.ActivityPhdBinding
 
-class PhdActivity : AppCompatActivity() {
+class PhdActivity : BaseActivity() {
 
     private lateinit var binding: ActivityPhdBinding
 
@@ -27,7 +27,7 @@ class PhdActivity : AppCompatActivity() {
     }
 
     private fun setupListeners() {
-        binding.btnBack.setOnClickListener {
+        binding.btnBack.root.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
 

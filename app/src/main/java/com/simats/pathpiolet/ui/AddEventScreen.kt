@@ -30,6 +30,8 @@ import retrofit2.Callback
 import retrofit2.Response
 import androidx.compose.ui.platform.LocalContext
 
+import com.simats.pathpiolet.ui.components.StandardBackButton
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddEventScreen(
@@ -54,9 +56,7 @@ fun AddEventScreen(
                     }
                 },
                 navigationIcon = {
-                    IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back", tint = SplashPrimary)
-                    }
+                    StandardBackButton(onClick = onBack)
                 },
                 actions = {
                     IconButton(onClick = onBack) {

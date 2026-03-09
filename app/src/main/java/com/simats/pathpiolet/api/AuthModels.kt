@@ -18,7 +18,8 @@ data class RegisterRequest(
 data class AuthResponse(
     val message: String? = null,
     val error: String? = null,
-    val user: UserData? = null
+    val user: UserData? = null,
+    val profile_picture: String? = null
 )
 
 data class UserData(
@@ -28,7 +29,8 @@ data class UserData(
     val phone: String? = null,
     val age: Int? = null,
     val education_level: String? = null,
-    val interested_field: String? = null
+    val interested_field: String? = null,
+    val profile_picture: String? = null
 )
 
 data class UpdateProfileRequest(

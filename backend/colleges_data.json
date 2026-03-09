@@ -1,0 +1,210 @@
+[
+  {
+    "name": "IIT Madras",
+    "location": "Chennai, Tamil Nadu",
+    "fees": "₹ 2.2L/yr",
+    "average_package": "₹ 21 LPA",
+    "type": "Public/Government",
+    "hostel": "Yes",
+    "specializations": [
+      "Computer Science",
+      "Electrical",
+      "Mechanical"
+    ],
+    "cutoff_exam": "JEE Advanced"
+  },
+  {
+    "name": "IIT Bombay",
+    "location": "Mumbai, Maharashtra",
+    "fees": "₹ 2.1L/yr",
+    "average_package": "₹ 23 LPA",
+    "type": "Public/Government",
+    "hostel": "Yes",
+    "specializations": [
+      "Computer Science",
+      "Engineering Physics",
+      "Mechanical"
+    ],
+    "cutoff_exam": "JEE Advanced"
+  },
+  {
+    "name": "BITS Pilani",
+    "location": "Pilani, Rajasthan",
+    "fees": "₹ 5.5L/yr",
+    "average_package": "₹ 18 LPA",
+    "type": "Private",
+    "hostel": "Yes",
+    "specializations": [
+      "Computer Science",
+      "Electronics",
+      "Chemical"
+    ],
+    "cutoff_exam": "BITSAT"
+  },
+  {
+    "name": "NIT Trichy",
+    "location": "Tiruchirappalli, Tamil Nadu",
+    "fees": "₹ 1.5L/yr",
+    "average_package": "₹ 12 LPA",
+    "type": "Public/Government",
+    "hostel": "Yes",
+    "specializations": [
+      "Computer Science",
+      "Production",
+      "Civil"
+    ],
+    "cutoff_exam": "JEE Main"
+  },
+  {
+    "name": "VIT Vellore",
+    "location": "Vellore, Tamil Nadu",
+    "fees": "₹ 1.9L/yr",
+    "average_package": "₹ 9 LPA",
+    "type": "Private",
+    "hostel": "Yes",
+    "specializations": [
+      "Computer Science",
+      "Information Technology",
+      "Bio-tech"
+    ],
+    "cutoff_exam": "VITEEE"
+  },
+  {
+    "name": "SRM University",
+    "location": "Chennai, Tamil Nadu",
+    "fees": "₹ 2.5L/yr",
+    "average_package": "₹ 7.5 LPA",
+    "type": "Private",
+    "hostel": "Yes",
+    "specializations": [
+      "Computer Science",
+      "Software Engineering"
+    ],
+    "cutoff_exam": "SRMJEEE"
+  },
+  {
+    "name": "CoEP Pune",
+    "location": "Pune, Maharashtra",
+    "fees": "₹ 90k/yr",
+    "average_package": "₹ 10 LPA",
+    "type": "Government Autonomous",
+    "hostel": "Yes",
+    "specializations": [
+      "Computer Science",
+      "Electronics",
+      "Mechanical"
+    ],
+    "cutoff_exam": "MHT-CET"
+  },
+  {
+    "name": "RV College of Engineering",
+    "location": "Bengaluru, Karnataka",
+    "fees": "₹ 2.5L/yr (KCET) / ₹ 7L (MQ)",
+    "average_package": "₹ 11 LPA",
+    "type": "Private Autonomous",
+    "hostel": "Yes",
+    "specializations": [
+      "Computer Science",
+      "ISE",
+      "ECE"
+    ],
+    "cutoff_exam": "KCET / COMEDK"
+  },
+  {
+    "name": "PSG College of Technology",
+    "location": "Coimbatore, Tamil Nadu",
+    "fees": "₹ 50k (Govt) / ₹ 2L (Self-fin)",
+    "average_package": "₹ 10.5 LPA",
+    "type": "Govt Aided",
+    "hostel": "Yes",
+    "specializations": [
+      "Computer Science",
+      "Robotics",
+      "Automobile"
+    ],
+    "cutoff_exam": "TNEA"
+  },
+  {
+    "name": "Delhi Technological University (DTU)",
+    "location": "New Delhi",
+    "fees": "₹ 2.1L/yr",
+    "average_package": "₹ 15 LPA",
+    "type": "Government",
+    "hostel": "Yes",
+    "specializations": [
+      "Computer Science",
+      "IT",
+      "Mathematics & Computing"
+    ],
+    "cutoff_exam": "JEE Main"
+  },
+  {
+    "name": "Manipal Institute of Technology",
+    "location": "Manipal, Karnataka",
+    "fees": "₹ 4.5L/yr",
+    "average_package": "₹ 10.5 LPA",
+    "type": "Private",
+    "hostel": "Yes",
+    "specializations": [
+      "Computer Science",
+      "Data Science",
+      "AI & ML"
+    ],
+    "cutoff_exam": "MET"
+  },
+  {
+    "name": "Amrita Vishwa Vidyapeetham",
+    "location": "Coimbatore, Tamil Nadu",
+    "fees": "₹ 2L - 4L/yr",
+    "average_package": "₹ 8 LPA",
+    "type": "Private",
+    "hostel": "Yes",
+    "specializations": [
+      "Computer Science",
+      "Cyber Security"
+    ],
+    "cutoff_exam": "AEEE"
+  },
+  {
+    "name": "VJTI Mumbai",
+    "location": "Mumbai, Maharashtra",
+    "fees": "₹ 85k/yr",
+    "average_package": "₹ 12 LPA",
+    "type": "Government Autonomous",
+    "hostel": "Yes",
+    "specializations": [
+      "Computer Science",
+      "IT",
+      "Electronics"
+    ],
+    "cutoff_exam": "MHT-CET"
+  },
+  {
+    "name": "Anna University (CEG)",
+    "location": "Chennai, Tamil Nadu",
+    "fees": "₹ 40k/yr",
+    "average_package": "₹ 11 LPA",
+    "type": "Government",
+    "hostel": "Yes",
+    "specializations": [
+      "Computer Science",
+      "IT",
+      "ECE"
+    ],
+    "cutoff_exam": "TNEA"
+  },
+  {
+    "name": "Jadavpur University",
+    "location": "Kolkata, West Bengal",
+    "fees": "₹ 10k/yr",
+    "average_package": "₹ 15 LPA",
+    "type": "Government",
+    "hostel": "Yes",
+    "specializations": [
+      "Computer Science",
+      "IT",
+      "Electronics"
+    ],
+    "cutoff_exam": "WBJEE"
+  }
+]

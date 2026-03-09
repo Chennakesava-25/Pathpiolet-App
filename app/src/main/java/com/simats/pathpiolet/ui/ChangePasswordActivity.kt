@@ -14,7 +14,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ChangePasswordActivity : AppCompatActivity() {
+class ChangePasswordActivity : BaseActivity() {
 
     private lateinit var binding: ActivityChangePasswordBinding
     private lateinit var sessionManager: SessionManager
@@ -30,7 +30,7 @@ class ChangePasswordActivity : AppCompatActivity() {
 
         sessionManager = SessionManager(this)
 
-        binding.btnBack.setOnClickListener { finish() }
+        binding.btnBack.root.setOnClickListener { finish() }
 
         binding.btnUpdatePassword.setOnClickListener {
             handleChangePassword()

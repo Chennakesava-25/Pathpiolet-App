@@ -29,9 +29,7 @@ import com.simats.pathpiolet.ui.ForgotPasswordScreen
 import com.simats.pathpiolet.ui.HomeScreen
 import com.simats.pathpiolet.ui.LoginScreen
 import com.simats.pathpiolet.ui.ProfileScreen
-import com.simats.pathpiolet.ui.RateUsActivity
 import com.simats.pathpiolet.ui.RoadmapScreen
-import com.simats.pathpiolet.ui.SendFeedbackActivity
 import com.simats.pathpiolet.ui.SettingsActivity
 import com.simats.pathpiolet.ui.SignUpScreen
 import com.simats.pathpiolet.ui.SplashScreen
@@ -61,7 +59,7 @@ data class Event(
 )
 
 enum class Screen {
-    Splash, Login, SignUp, ForgotPassword, VerifyOtp, ResetPassword, Home, Colleges, Roadmap, Calendar, Profile, AddEvent
+    Splash, Login, SignUp, ForgotPassword, VerifyOtp, SignUpVerifyOtp, ResetPassword, Home, Colleges, Roadmap, Calendar, Profile, AddEvent
 }
 
 class MainActivity : ComponentActivity() {
@@ -104,7 +102,7 @@ class MainActivity : ComponentActivity() {
                 LaunchedEffect(currentScreen) {
                     if (currentScreen == Screen.Splash) {
                         delay(3000)
-                        currentScreen = Screen.Login
+                        currentScreen = if (userId != -1) Screen.Home else Screen.Login
                     }
                 }
 
@@ -200,7 +198,10 @@ class MainActivity : ComponentActivity() {
                     Surface(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(if (showBottomBar) innerPadding else PaddingValues(0.dp)),
+                            .padding(
+                                top = innerPadding.calculateTopPadding(),
+                                bottom = if (showBottomBar) innerPadding.calculateBottomPadding() else 0.dp
+                            ),
                         color = MaterialTheme.colorScheme.background
                     ) {
                         when (currentScreen) {
@@ -212,7 +213,10 @@ class MainActivity : ComponentActivity() {
                             )
                             Screen.SignUp -> SignUpScreen(
                                 onLoginClick = { currentScreen = Screen.Login },
-                                onSignUpSuccess = { currentScreen = Screen.Home }
+                                onSignUpSuccess = { email ->
+                                    resetEmail = email 
+                                    currentScreen = Screen.SignUpVerifyOtp
+                                }
                             )
                             Screen.ForgotPassword -> com.simats.pathpiolet.ui.ForgotPasswordScreen(
                                 onBackToLogin = { currentScreen = Screen.Login },
@@ -223,8 +227,16 @@ class MainActivity : ComponentActivity() {
                             )
                             Screen.VerifyOtp -> com.simats.pathpiolet.ui.VerifyOtpScreen(
                                 email = resetEmail,
+                                isFromSignUp = false,
                                 onBack = { currentScreen = Screen.ForgotPassword },
                                 onOtpVerified = { currentScreen = Screen.ResetPassword }
+                            )
+                            Screen.SignUpVerifyOtp -> com.simats.pathpiolet.ui.VerifyOtpScreen(
+                                email = resetEmail,
+                                isFromSignUp = true,
+                                onBack = { currentScreen = Screen.SignUp },
+                                onOtpVerified = {},
+                                onSignUpSuccess = { currentScreen = Screen.Home }
                             )
                             Screen.ResetPassword -> com.simats.pathpiolet.ui.ResetPasswordScreen(
                                 email = resetEmail,

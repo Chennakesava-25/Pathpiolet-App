@@ -17,7 +17,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import android.widget.Toast
 
-class CollegesActivity : AppCompatActivity() {
+class CollegesActivity : BaseActivity() {
 
     private lateinit var binding: ActivityCollegesBinding
     private lateinit var adapter: CollegeAdapter
@@ -32,7 +32,7 @@ class CollegesActivity : AppCompatActivity() {
         setupRecyclerView()
         setupSearch()
         
-        binding.btnBack.setOnClickListener {
+        binding.btnBack.root.setOnClickListener {
             finish()
         }
     }

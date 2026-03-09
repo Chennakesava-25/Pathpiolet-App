@@ -36,6 +36,8 @@ import retrofit2.Callback
 import retrofit2.Response
 import androidx.compose.ui.platform.LocalContext
 
+import com.simats.pathpiolet.ui.components.StandardBackButton
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CalendarScreen(
@@ -85,14 +87,9 @@ fun CalendarScreen(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Column(
-                    modifier = Modifier.padding(16.dp).statusBarsPadding()
+                    modifier = Modifier.padding(16.dp)
                 ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        IconButton(onClick = onBack) {
-                            Icon(Icons.Default.ArrowBack, contentDescription = "Back", tint = Color.White)
-                        }
-                        Text("Back", color = Color.White, fontSize = 16.sp)
-                    }
+                    StandardBackButton(onClick = onBack, modifier = Modifier.padding(start = 0.dp))
                     
                     Spacer(modifier = Modifier.height(16.dp))
                     

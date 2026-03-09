@@ -7,15 +7,13 @@
     android:background="#F5F9FF"
     android:fitsSystemWindows="true">
 
-    <ImageView
+    <include
         android:id="@+id/btnBack"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        layout="@layout/layout_back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginStart="16dp"
-        android:padding="12dp"
-        android:src="@drawable/ic_arrow_back"
-        app:tint="#3D5AFE"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,23 +34,15 @@
         android:id="@+id/tvSubtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="B.Tech Programs"
+        android:text="B.Tech/B.Sc Programs"
         android:textColor="#757575"
         android:textSize="14sp"
         android:layout_marginTop="4dp"
         app:layout_constraintStart_toStartOf="@id/tvTitle"
         app:layout_constraintTop_toBottomOf="@id/tvTitle"/>
 
-    <ImageView
-        android:id="@+id/btnFilter"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@drawable/ic_search"
-        app:tint="#3D5AFE"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/tvTitle"
-        app:layout_constraintBottom_toBottomOf="@id/tvTitle"/>
+
+
         
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvAiResults"

@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.simats.pathpiolet.R
 import com.simats.pathpiolet.databinding.ActivityCareerBinding
 
-class CareerActivity : AppCompatActivity() {
+class CareerActivity : BaseActivity() {
 
     private lateinit var binding: ActivityCareerBinding
     private lateinit var adapter: JobAdapter
@@ -40,7 +40,7 @@ class CareerActivity : AppCompatActivity() {
     }
 
     private fun setupListeners() {
-        binding.btnBack.setOnClickListener {
+        binding.btnBack.root.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
 

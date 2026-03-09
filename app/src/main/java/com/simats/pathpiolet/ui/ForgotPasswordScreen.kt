@@ -4,24 +4,24 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.simats.pathpiolet.ui.theme.SplashPrimary
 import com.simats.pathpiolet.ui.theme.SplashTagline
-import android.widget.Toast
-import androidx.compose.ui.platform.LocalContext
 import com.simats.pathpiolet.api.RetrofitClient
 import com.simats.pathpiolet.api.ForgotPasswordRequest
 import com.simats.pathpiolet.api.AuthResponse
+import android.widget.Toast
+import com.simats.pathpiolet.ui.components.StandardBackButton
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -54,21 +54,16 @@ fun ForgotPasswordScreen(
                     .padding(top = 16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                IconButton(onClick = onBackToLogin) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = "Back",
-                        tint = SplashPrimary
-                    )
-                }
-                TextButton(onClick = onBackToLogin) {
-                    Text(
-                        text = "Back to Login",
-                        color = SplashPrimary,
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Medium
-                    )
-                }
+                StandardBackButton(onClick = onBackToLogin)
+                
+                Spacer(modifier = Modifier.width(8.dp))
+                
+                Text(
+                    text = "Back to Login",
+                    color = SplashPrimary,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold
+                )
             }
 
             Spacer(modifier = Modifier.height(60.dp))
@@ -149,8 +144,8 @@ fun ForgotPasswordScreen(
                                 } else {
                                     val errorMsg = try {
                                         val errorBody = response.errorBody()?.string()
-                                        val jsonObject = com.google.gson.JsonParser.parseString(errorBody).asJsonObject
-                                        jsonObject.get("error")?.asString ?: jsonObject.get("message")?.asString ?: "Failed to generate OTP"
+                                        val jsonObject = com.google.gson.JsonParser().parse(errorBody).asJsonObject
+                                        jsonObject.get("error")?.getAsString() ?: jsonObject.get("message")?.getAsString() ?: "Failed to generate OTP"
                                     } catch (e: Exception) {
                                         "Error: ${response.code()}"
                                     }

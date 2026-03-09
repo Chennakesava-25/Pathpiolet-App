@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F9FF"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="32dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <include
+                android:id="@+id/btnBack"
+                layout="@layout/layout_back_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tvToolbarTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="Web Developer (B.Sc)"
+                android:textColor="@color/roadmap_primary"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView style="@style/SectionHeaderStyle" android:text="Overview" />
+            <androidx.cardview.widget.CardView style="@style/ContentCardStyle">
+                <TextView style="@style/ContentTextStyle" android:text="Designs and develops responsive web interfaces and core website functionality." />
+            </androidx.cardview.widget.CardView>
+
+            <TextView style="@style/SectionHeaderStyle" android:text="Technical Skills" />
+            <androidx.cardview.widget.CardView style="@style/ContentCardStyle">
+                <TextView style="@style/ContentTextStyle" android:text="• HTML5 &amp; CSS3\n• Modern JavaScript\n• UI Frameworks (Bootstrap/Tailwind)\n• Basic PHP &amp; MySQL\n• Content Management Systems (WordPress)" />
+            </androidx.cardview.widget.CardView>
+
+            <TextView style="@style/SectionHeaderStyle" android:text="Roadmap" />
+            <androidx.cardview.widget.CardView style="@style/ContentCardStyle">
+                <TextView style="@style/ContentTextStyle" android:text="Semester 1-2 → Web Design Basics\nSemester 3-4 → Client-side Programming\nSemester 5-6 → CMS &amp; Backend Integrations" />
+            </androidx.cardview.widget.CardView>
+
+            <TextView style="@style/SectionHeaderStyle" android:text="Salary" />
+            <androidx.cardview.widget.CardView style="@style/ContentCardStyle">
+                <TextView style="@style/ContentTextStyle" android:text="• Fresher → ₹2–3.5 LPA\n• Mid → ₹5–9 LPA\n• Senior → ₹12+ LPA" />
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

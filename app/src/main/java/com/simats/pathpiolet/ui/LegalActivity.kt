@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.activity.enableEdgeToEdge
 import com.simats.pathpiolet.databinding.ActivityLegalContentBinding
 
-class LegalActivity : AppCompatActivity() {
+class LegalActivity : BaseActivity() {
 
     private lateinit var binding: ActivityLegalContentBinding
 
@@ -21,6 +21,6 @@ class LegalActivity : AppCompatActivity() {
         binding.tvTitle.text = title
         binding.tvContent.text = content
 
-        binding.btnBack.setOnClickListener { finish() }
+        binding.btnBack.root.setOnClickListener { finish() }
     }
 }

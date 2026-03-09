@@ -15,14 +15,12 @@
         android:background="@color/app_background"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageButton
+        <include
             android:id="@+id/btnBack"
-            android:layout_width="48.dp"
-            android:layout_height="48.dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@android:drawable/ic_menu_revert"
-            android:rotation="180"
-            app:tint="#1A3B8B" />
+            layout="@layout/layout_back_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -69,12 +67,14 @@
 
             <!-- Avatar -->
             <FrameLayout
-                android:layout_width="100.dp"
-                android:layout_height="100.dp"
+                android:layout_width="110.dp"
+                android:layout_height="110.dp"
                 android:layout_gravity="center">
+                
                 <androidx.cardview.widget.CardView
                     android:layout_width="100.dp"
                     android:layout_height="100.dp"
+                    android:layout_gravity="center"
                     app:cardCornerRadius="50.dp"
                     app:cardElevation="4.dp">
 
@@ -84,26 +84,49 @@
                         android:background="#8E99D6">
 
                         <TextView
+                            android:id="@+id/tvInitial"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:text="V"
                             android:textColor="#FFFFFF"
                             android:textSize="40sp" />
+
+                        <ImageView
+                            android:id="@+id/imgProfile"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            android:visibility="gone"/>
                     </FrameLayout>
                 </androidx.cardview.widget.CardView>
+
+                <!-- Camera Button with White Border -->
                 <androidx.cardview.widget.CardView
-                    android:layout_width="32.dp"
-                    android:layout_height="32.dp"
+                    android:layout_width="38.dp"
+                    android:layout_height="38.dp"
                     android:layout_gravity="bottom|end"
-                    app:cardBackgroundColor="#1A3B8B"
-                    app:cardCornerRadius="16.dp">
-                    <ImageView
-                        android:layout_width="16.dp"
-                        android:layout_height="16.dp"
+                    android:layout_margin="2.dp"
+                    app:cardBackgroundColor="#FFFFFF"
+                    app:cardCornerRadius="19.dp"
+                    app:cardElevation="5.dp">
+                    
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/btnChangePhoto"
+                        android:layout_width="32.dp"
+                        android:layout_height="32.dp"
                         android:layout_gravity="center"
-                        android:src="@android:drawable/ic_menu_camera"
-                        app:tint="#FFFFFF" />
+                        app:cardBackgroundColor="#1A3B8B"
+                        app:cardCornerRadius="16.dp"
+                        app:cardElevation="0.dp">
+                        
+                        <ImageView
+                            android:layout_width="16.dp"
+                            android:layout_height="16.dp"
+                            android:layout_gravity="center"
+                            android:src="@android:drawable/ic_menu_camera"
+                            app:tint="#FFFFFF" />
+                    </androidx.cardview.widget.CardView>
                 </androidx.cardview.widget.CardView>
             </FrameLayout>
 

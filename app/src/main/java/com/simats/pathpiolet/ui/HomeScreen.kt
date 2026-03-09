@@ -39,7 +39,7 @@ fun HomeScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(SplashPrimary)  // matches header — no white bleed behind status bar
             .verticalScroll(scrollState)
     ) {
         // Header Section
@@ -51,7 +51,6 @@ fun HomeScreen(
         ) {
             Column(
                 modifier = Modifier
-                    .statusBarsPadding()
                     .padding(24.dp)
             ) {
                 Spacer(modifier = Modifier.height(16.dp))
@@ -67,34 +66,82 @@ fun HomeScreen(
                     fontSize = 14.sp
                 )
                 
-                Spacer(modifier = Modifier.height(24.dp))
-                
-                // Search Bar
+            Spacer(modifier = Modifier.height(20.dp))
+
+                // Quick Stats Row
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    Surface(
+                        modifier = Modifier.weight(1f),
+                        shape = RoundedCornerShape(16.dp),
+                        color = Color.White.copy(alpha = 0.15f)
+                    ) {
+                        Column(
+                            modifier = Modifier.padding(12.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text("1500+", color = Color.White, fontSize = 20.sp, fontWeight = FontWeight.ExtraBold)
+                            Text("Colleges", color = Color.White.copy(alpha = 0.8f), fontSize = 11.sp)
+                        }
+                    }
+                    Surface(
+                        modifier = Modifier.weight(1f),
+                        shape = RoundedCornerShape(16.dp),
+                        color = Color.White.copy(alpha = 0.15f)
+                    ) {
+                        Column(
+                            modifier = Modifier.padding(12.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text("5", color = Color.White, fontSize = 20.sp, fontWeight = FontWeight.ExtraBold)
+                            Text("Pathways", color = Color.White.copy(alpha = 0.8f), fontSize = 11.sp)
+                        }
+                    }
+                    Surface(
+                        modifier = Modifier.weight(1f),
+                        shape = RoundedCornerShape(16.dp),
+                        color = Color.White.copy(alpha = 0.15f)
+                    ) {
+                        Column(
+                            modifier = Modifier.padding(12.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text("AI", color = Color.White, fontSize = 20.sp, fontWeight = FontWeight.ExtraBold)
+                            Text("Powered", color = Color.White.copy(alpha = 0.8f), fontSize = 11.sp)
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                // Daily Tip
                 Surface(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(56.dp)
-                        .clickable {
-                            context.startActivity(android.content.Intent(context, QnaActivity::class.java))
-                        },
-                    shape = RoundedCornerShape(28.dp),
-                    color = Color.White.copy(alpha = 0.1f)
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(16.dp),
+                    color = Color.White.copy(alpha = 0.15f)
                 ) {
                     Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(horizontal = 16.dp)
+                        modifier = Modifier.padding(14.dp),
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Icon(
-                            Icons.Default.Search, 
-                            contentDescription = "Search for AI assistance", 
-                            tint = Color.White.copy(alpha = 0.6f)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(
-                            text = "Search for AI assistance...",
-                            color = Color.White.copy(alpha = 0.4f),
-                            fontSize = 14.sp
-                        )
+                        Text("💡", fontSize = 22.sp)
+                        Spacer(modifier = Modifier.width(10.dp))
+                        Column {
+                            Text(
+                                text = "Tip of the Day",
+                                color = Color.White,
+                                fontSize = 12.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                            Text(
+                                text = "Research college placement records before applying — they reveal real career outcomes.",
+                                color = Color.White.copy(alpha = 0.85f),
+                                fontSize = 11.sp,
+                                lineHeight = 15.sp
+                            )
+                        }
                     }
                 }
             }

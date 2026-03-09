@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.simats.pathpiolet.databinding.ActivityQnaBinding
 import com.simats.pathpiolet.databinding.ItemQnaBinding
 
-class QnaActivity : AppCompatActivity() {
+class QnaActivity : BaseActivity() {
 
     private lateinit var binding: ActivityQnaBinding
     private lateinit var adapter: QnaAdapter
@@ -25,7 +25,7 @@ class QnaActivity : AppCompatActivity() {
     }
 
     private fun setupToolBar() {
-        binding.btnBack.setOnClickListener {
+        binding.btnBack.root.setOnClickListener {
             finish()
         }
     }

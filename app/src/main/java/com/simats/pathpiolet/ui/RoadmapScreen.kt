@@ -25,7 +25,7 @@ fun RoadmapScreen(
             val binding = ActivityRoadmapBinding.inflate(LayoutInflater.from(context))
             
             // Setup Header (Back button logic if needed, currently just closes activity if it was an activity)
-            binding.btnBack.setOnClickListener {
+            binding.btnBack.root.setOnClickListener {
                 // Since this is a fragment/composable in MainActivity, distinct back behavior might be needed.
                 // For now, leaving empty or could handle specific navigation.
             }

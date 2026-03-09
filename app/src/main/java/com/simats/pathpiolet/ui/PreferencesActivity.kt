@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.simats.pathpiolet.databinding.ActivityPreferencesBinding
 import com.google.android.material.chip.Chip
 
-class PreferencesActivity : AppCompatActivity() {
+class PreferencesActivity : BaseActivity() {
 
     private lateinit var binding: ActivityPreferencesBinding
     private var path: String? = null
@@ -29,7 +29,7 @@ class PreferencesActivity : AppCompatActivity() {
     }
 
     private fun setupUI() {
-        binding.btnBack.setOnClickListener { finish() }
+        binding.btnBack.root.setOnClickListener { finish() }
         
         // Budget Slider initialization and display update
         binding.sliderBudget.value = 150000f

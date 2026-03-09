@@ -63,7 +63,8 @@ fun LoginScreen(
                                 user.phone, 
                                 user.age, 
                                 user.education_level, 
-                                user.interested_field
+                                user.interested_field,
+                                user.profile_picture
                             )
                         }
                         Toast.makeText(context, "Login Successful", Toast.LENGTH_SHORT).show()

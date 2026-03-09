@@ -12,7 +12,7 @@ import com.simats.pathpiolet.R
 import com.simats.pathpiolet.databinding.ActivityHistoryBinding
 import com.simats.pathpiolet.databinding.ItemActivityHistoryBinding
 
-class ActivityHistoryActivity : AppCompatActivity() {
+class ActivityHistoryActivity : BaseActivity() {
 
     private lateinit var binding: ActivityHistoryBinding
     private val allItems = listOf(
@@ -34,7 +34,7 @@ class ActivityHistoryActivity : AppCompatActivity() {
         binding = ActivityHistoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.btnBack.setOnClickListener { finish() }
+        binding.btnBack.root.setOnClickListener { finish() }
 
         setupRecyclerView()
         setupTabs()

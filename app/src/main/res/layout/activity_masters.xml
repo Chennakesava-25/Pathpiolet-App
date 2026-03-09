@@ -16,28 +16,12 @@
         android:padding="16dp"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <include
             android:id="@+id/btnBack"
+            layout="@layout/layout_back_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="8dp">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_arrow_back"
-                app:tint="@color/roadmap_primary" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="Back"
-                android:textColor="@color/roadmap_primary"
-                android:textSize="16sp" />
-        </LinearLayout>
+            android:layout_margin="8dp" />
 
         <TextView
             android:layout_width="match_parent"

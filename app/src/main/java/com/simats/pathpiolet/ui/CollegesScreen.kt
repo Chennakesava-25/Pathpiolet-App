@@ -28,7 +28,7 @@ fun CollegesScreen(
             val binding = ActivityCollegesBinding.inflate(LayoutInflater.from(context))
             
             // Back button should probably be hidden or handled differently in tab
-            binding.btnBack.visibility = android.view.View.GONE
+            binding.btnBack.root.visibility = android.view.View.GONE
             
             setupCollegesView(context, binding)
             

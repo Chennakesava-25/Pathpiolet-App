@@ -15,7 +15,7 @@ import com.google.android.material.chip.Chip
 import com.simats.pathpiolet.R
 import com.simats.pathpiolet.databinding.ActivityMastersBinding
 
-class MastersActivity : AppCompatActivity() {
+class MastersActivity : BaseActivity() {
 
     private lateinit var binding: ActivityMastersBinding
 
@@ -30,7 +30,7 @@ class MastersActivity : AppCompatActivity() {
     }
 
     private fun setupListeners() {
-        binding.btnBack.setOnClickListener {
+        binding.btnBack.root.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
 

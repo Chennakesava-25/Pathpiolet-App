@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F9FF"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="32dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <include
+                android:id="@+id/btnBack"
+                layout="@layout/layout_back_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tvToolbarTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="App Developer"
+                android:textColor="@color/roadmap_primary"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView style="@style/SectionHeaderStyle" android:text="Overview" />
+            <androidx.cardview.widget.CardView style="@style/ContentCardStyle">
+                <TextView style="@style/ContentTextStyle" android:text="Develops intuitive and high-performance mobile applications for Android and iOS systems." />
+            </androidx.cardview.widget.CardView>
+
+            <TextView style="@style/SectionHeaderStyle" android:text="Technical Skills" />
+            <androidx.cardview.widget.CardView style="@style/ContentCardStyle">
+                <TextView style="@style/ContentTextStyle" android:text="• Kotlin / Swift\n• Dart (Flutter) / React Native\n• Android SDK / iOS SDK\n• Firebase / SQLite\n• REST APIs &amp; JSON\n• UI/UX Material Design" />
+            </androidx.cardview.widget.CardView>
+
+            <TextView style="@style/SectionHeaderStyle" android:text="Roadmap" />
+            <androidx.cardview.widget.CardView style="@style/ContentCardStyle">
+                <TextView style="@style/ContentTextStyle" android:text="Year 1 → Basic Java/Kotlin &amp; XML\nYear 2 → Layouts &amp; Navigation\nYear 3 → Networking &amp; Architecture (MVVM)\nYear 4 → Advanced Projects &amp; App Store Deployment" />
+            </androidx.cardview.widget.CardView>
+
+            <TextView style="@style/SectionHeaderStyle" android:text="Projects" />
+            <androidx.cardview.widget.CardView style="@style/ContentCardStyle">
+                <TextView style="@style/ContentTextStyle" android:text="• Weather App with API\n• Personal Budget Tracker\n• Real-time Food Delivery UI" />
+            </androidx.cardview.widget.CardView>
+
+            <TextView style="@style/SectionHeaderStyle" android:text="Salary" />
+            <androidx.cardview.widget.CardView style="@style/ContentCardStyle">
+                <TextView style="@style/ContentTextStyle" android:text="• Fresher → ₹4–7 LPA\n• Mid → ₹10–18 LPA\n• Senior → ₹25+ LPA" />
+            </androidx.cardview.widget.CardView>
+
+            <TextView style="@style/SectionHeaderStyle" android:text="Growth" />
+            <androidx.cardview.widget.CardView style="@style/ContentCardStyle">
+                <TextView style="@style/ContentTextStyle" android:text="Developer → Senior App Dev → Mobile Lead → Solutions Architect" />
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

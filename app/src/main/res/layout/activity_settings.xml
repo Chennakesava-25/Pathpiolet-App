@@ -14,13 +14,11 @@
         android:background="#FFFFFF"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageButton
+        <include
             android:id="@+id/btnBack"
-            android:layout_width="40.dp"
-            android:layout_height="40.dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@android:drawable/ic_menu_revert"
-            app:tint="#1A3B8B" />
+            layout="@layout/layout_back_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -98,12 +96,6 @@
                                 android:textColor="#1A3B8B"
                                 android:textSize="14sp"
                                 android:textStyle="bold" />
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Receive exam reminders"
-                                android:textColor="#7C86A2"
-                                android:textSize="12sp" />
                         </LinearLayout>
                         <com.google.android.material.switchmaterial.SwitchMaterial
                             android:id="@+id/switchNotifications"

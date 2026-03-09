@@ -20,7 +20,9 @@ data class College(
     val matchScore: Int = 0,
     val tags: List<String>? = emptyList(),
     var isSaved: Boolean = false,
-    val facilities: List<String>? = emptyList()
+    val facilities: List<String>? = emptyList(),
+    val website: String? = null,
+    val description: String? = null
 ) : Parcelable {
     constructor(parcel: android.os.Parcel) : this(
         parcel.readInt(),
@@ -36,7 +38,9 @@ data class College(
         parcel.readInt(),
         parcel.createStringArrayList() ?: emptyList(),
         parcel.readByte() != 0.toByte(),
-        parcel.createStringArrayList() ?: emptyList()
+        parcel.createStringArrayList() ?: emptyList(),
+        parcel.readString(),
+        parcel.readString()
     )
 
     override fun writeToParcel(parcel: android.os.Parcel, flags: Int) {
@@ -54,6 +58,8 @@ data class College(
         parcel.writeStringList(tags)
         parcel.writeByte(if (isSaved) 1 else 0)
         parcel.writeStringList(facilities)
+        parcel.writeString(website)
+        parcel.writeString(description)
     }
 
     override fun describeContents(): Int {

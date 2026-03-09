@@ -7,7 +7,7 @@ import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import com.simats.pathpiolet.databinding.ActivityAiProcessingBinding
 
-class AiProcessingActivity : AppCompatActivity() {
+class AiProcessingActivity : BaseActivity() {
 
     private lateinit var binding: ActivityAiProcessingBinding
     private val handler = Handler(Looper.getMainLooper())

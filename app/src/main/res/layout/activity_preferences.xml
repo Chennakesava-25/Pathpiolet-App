@@ -6,15 +6,13 @@
     android:background="#F5F9FF"
     android:fitsSystemWindows="true">
 
-    <ImageView
+    <include
         android:id="@+id/btnBack"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        layout="@layout/layout_back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginStart="16dp"
-        android:padding="12dp"
-        android:src="@drawable/ic_arrow_back"
-        app:tint="#3D5AFE"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -41,384 +39,343 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:paddingHorizontal="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="16dp">
 
             <!-- Location -->
-            <com.google.android.material.card.MaterialCardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="16dp"
-                app:strokeWidth="1dp"
-                app:strokeColor="#000000"
-                app:cardElevation="0dp"
-                android:layout_marginBottom="16dp">
-                
-                <LinearLayout
-                    android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:paddingVertical="16dp">
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="20dp">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Location Preference"
-                        android:textStyle="bold"
-                        android:textColor="#000000"
-                        android:textSize="14sp"/>
-                    <EditText
-                        android:id="@+id/etLocation"
-                        android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:hint=""
-                        android:background="@drawable/bg_search_bar"
-                        android:paddingHorizontal="16dp"
-                        android:layout_marginTop="12dp"
-                        android:textColor="#000000"
-                        android:textSize="14sp"
-                        android:inputType="text"/>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+                    android:text="Location Preference"
+                    android:textStyle="bold"
+                    android:textColor="#000000"
+                    android:textSize="14sp"/>
+                <EditText
+                    android:id="@+id/etLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:hint="e.g. Chennai, Bangalore"
+                    android:background="@android:color/transparent"
+                    android:paddingHorizontal="0dp"
+                    android:layout_marginTop="4dp"
+                    android:textColor="#000000"
+                    android:textColorHint="#9CA3AF"
+                    android:textSize="14sp"
+                    android:inputType="text"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#E5E7EB"/>
 
             <!-- Budget -->
-             <com.google.android.material.card.MaterialCardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="16dp"
-                app:strokeWidth="1dp"
-                app:strokeColor="#000000"
-                app:cardElevation="0dp"
-                android:layout_marginBottom="16dp">
-                
-                <LinearLayout
+                android:orientation="vertical"
+                android:paddingVertical="16dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Budget Range (Annual Fees)"
+                    android:textStyle="bold"
+                    android:textColor="#000000"
+                    android:textSize="14sp"/>
+
+                <TextView
+                    android:id="@+id/tvBudget"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="₹150K"
+                    android:textColor="#000000"
+                    android:textSize="28sp"
+                    android:fontWeight="700"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="12dp"/>
+
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/sliderBudget"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="20dp">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Budget Range (Annual Fees)"
-                        android:textStyle="bold"
-                        android:textColor="#000000"
-                        android:textSize="14sp"/>
-                    
-                    <TextView
-                        android:id="@+id/tvBudget"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="₹150K"
-                        android:textColor="#000000"
-                        android:textSize="28sp"
-                        android:fontWeight="700"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="12dp"/>
+                    android:valueFrom="50000"
+                    android:valueTo="500000"
+                    android:stepSize="10000"
+                    android:value="150000"
+                    app:trackHeight="4dp"
+                    app:thumbColor="#3D5AFE"
+                    app:trackColorActive="#3D5AFE"
+                    app:trackColorInactive="#E5E7EB"/>
 
-                    <com.google.android.material.slider.Slider
-                        android:id="@+id/sliderBudget"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:valueFrom="50000"
-                        android:valueTo="500000"
-                        android:stepSize="10000"
-                        android:value="150000"
-                        app:trackHeight="4dp"
-                        app:thumbColor="#3D5AFE"
-                        app:trackColorActive="#3D5AFE"
-                        app:trackColorInactive="#E5E7EB"/>
-                        
-                    <LinearLayout
-                         android:layout_width="match_parent"
-                         android:layout_height="wrap_content"
-                         android:orientation="horizontal"
-                         android:layout_marginTop="-4dp">
-                         <TextView android:text="₹50K" android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content" android:textSize="12sp" android:textColor="#9CA3AF"/>
-                         <TextView android:text="₹5L" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="12sp" android:textColor="#9CA3AF"/>
-                    </LinearLayout>
+                <LinearLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:orientation="horizontal"
+                     android:layout_marginTop="-4dp">
+                     <TextView android:text="₹50K" android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content" android:textSize="12sp" android:textColor="#9CA3AF"/>
+                     <TextView android:text="₹5L" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="12sp" android:textColor="#9CA3AF"/>
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#E5E7EB"/>
 
             <!-- College Type -->
-             <com.google.android.material.card.MaterialCardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="16dp"
-                app:strokeWidth="1dp"
-                app:strokeColor="#000000"
-                app:cardElevation="0dp"
-                android:layout_marginBottom="16dp">
-                
-                <LinearLayout
+                android:orientation="vertical"
+                android:paddingVertical="16dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="College Type"
+                    android:textStyle="bold"
+                    android:textColor="#000000"
+                    android:textSize="14sp"/>
+
+                <GridLayout
+                    android:id="@+id/gridCollegeType"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="20dp">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="College Type"
-                        android:textStyle="bold"
-                        android:textColor="#000000"
-                        android:textSize="14sp"/>
-                    
-                    <GridLayout
-                        android:id="@+id/gridCollegeType"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:columnCount="2"
-                        android:rowCount="2"
-                        android:alignmentMode="alignMargins"
-                        android:columnOrderPreserved="false">
+                    android:layout_marginTop="12dp"
+                    android:columnCount="2"
+                    android:rowCount="2"
+                    android:alignmentMode="alignMargins"
+                    android:columnOrderPreserved="false">
 
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btnTypeGov"
-                            style="@style/Widget.Material3.Button.TonalButton"
-                            android:layout_width="0dp"
-                            android:layout_height="60dp"
-                            android:layout_columnWeight="1"
-                            android:layout_margin="4dp"
-                            android:text="Government"
-                            android:textColor="@color/text_button_toggle"
-                            android:textAllCaps="false"
-                            app:backgroundTint="@color/bg_button_toggle"
-                            app:cornerRadius="12dp"
-                            android:checkable="true" />
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btnTypePrivate"
-                            style="@style/Widget.Material3.Button.TonalButton"
-                            android:layout_width="0dp"
-                            android:layout_height="60dp"
-                            android:layout_columnWeight="1"
-                            android:layout_margin="4dp"
-                            android:text="Private"
-                            android:textColor="@color/text_button_toggle"
-                            android:textAllCaps="false"
-                            app:backgroundTint="@color/bg_button_toggle"
-                            app:cornerRadius="12dp"
-                            android:checkable="true" />
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btnTypeDeemed"
-                            style="@style/Widget.Material3.Button.TonalButton"
-                            android:layout_width="0dp"
-                            android:layout_height="60dp"
-                            android:layout_columnWeight="1"
-                            android:layout_margin="4dp"
-                            android:text="Deemed"
-                            android:textColor="@color/text_button_toggle"
-                            android:textAllCaps="false"
-                            app:backgroundTint="@color/bg_button_toggle"
-                            app:cornerRadius="12dp"
-                            android:checkable="true" />
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btnTypeAny"
-                            style="@style/Widget.Material3.Button.TonalButton"
-                            android:layout_width="0dp"
-                            android:layout_height="60dp"
-                            android:layout_columnWeight="1"
-                            android:layout_margin="4dp"
-                            android:text="Any"
-                            android:textColor="@color/text_button_toggle"
-                            android:textAllCaps="false"
-                            app:backgroundTint="@color/bg_button_toggle"
-                            app:cornerRadius="12dp"
-                            android:checkable="true" />
-                    </GridLayout>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-            
-             <!-- Hostel -->
-             <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="16dp"
-                app:strokeWidth="1dp"
-                app:strokeColor="#000000"
-                app:cardElevation="0dp"
-                android:layout_marginBottom="16dp">
-                
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="20dp"
-                    android:gravity="center_vertical">
-                    <TextView
-                        android:text="Hostel Requirement"
-                        android:textStyle="bold"
-                        android:textColor="#000000"
-                        android:textSize="14sp"
-                        android:layout_weight="1"
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnTypeGov"
+                        style="@style/Widget.Material3.Button.TonalButton"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"/>
-                    
-                    <com.google.android.material.materialswitch.MaterialSwitch
-                        android:id="@+id/switchHostel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:thumbTint="@color/white"
-                        app:trackDecorationTint="#3D5AFE"/>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-            
-             <!-- Placement Priority -->
-             <com.google.android.material.card.MaterialCardView
+                        android:layout_height="60dp"
+                        android:layout_columnWeight="1"
+                        android:layout_margin="4dp"
+                        android:text="Government"
+                        android:textColor="@color/text_button_toggle"
+                        android:textAllCaps="false"
+                        app:backgroundTint="@color/bg_button_toggle"
+                        app:cornerRadius="12dp"
+                        android:checkable="true" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnTypePrivate"
+                        style="@style/Widget.Material3.Button.TonalButton"
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_columnWeight="1"
+                        android:layout_margin="4dp"
+                        android:text="Private"
+                        android:textColor="@color/text_button_toggle"
+                        android:textAllCaps="false"
+                        app:backgroundTint="@color/bg_button_toggle"
+                        app:cornerRadius="12dp"
+                        android:checkable="true" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnTypeDeemed"
+                        style="@style/Widget.Material3.Button.TonalButton"
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_columnWeight="1"
+                        android:layout_margin="4dp"
+                        android:text="Deemed"
+                        android:textColor="@color/text_button_toggle"
+                        android:textAllCaps="false"
+                        app:backgroundTint="@color/bg_button_toggle"
+                        app:cornerRadius="12dp"
+                        android:checkable="true" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnTypeAny"
+                        style="@style/Widget.Material3.Button.TonalButton"
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_columnWeight="1"
+                        android:layout_margin="4dp"
+                        android:text="Any"
+                        android:textColor="@color/text_button_toggle"
+                        android:textAllCaps="false"
+                        app:backgroundTint="@color/bg_button_toggle"
+                        app:cornerRadius="12dp"
+                        android:checkable="true" />
+                </GridLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#E5E7EB"/>
+
+            <!-- Hostel -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="16dp"
-                app:strokeWidth="1dp"
-                app:strokeColor="#000000"
-                app:cardElevation="0dp"
-                android:layout_marginBottom="16dp">
-                
-                <LinearLayout
+                android:orientation="horizontal"
+                android:paddingVertical="16dp"
+                android:gravity="center_vertical">
+                <TextView
+                    android:text="Hostel Requirement"
+                    android:textStyle="bold"
+                    android:textColor="#000000"
+                    android:textSize="14sp"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/switchHostel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:thumbTint="@color/white"
+                    app:trackDecorationTint="#3D5AFE"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#E5E7EB"/>
+
+            <!-- Placement Priority -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingVertical="16dp">
+                <TextView
+                    android:id="@+id/tvPlacementPriorityLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Placement Priority: Medium"
+                    android:textStyle="bold"
+                    android:textColor="#000000"
+                    android:textSize="14sp"/>
+
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/sliderPlacementPriority"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="20dp">
-                    <TextView
-                        android:id="@+id/tvPlacementPriorityLabel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Placement Priority: Medium"
-                        android:textStyle="bold"
-                        android:textColor="#000000"
-                        android:textSize="14sp"/>
-                    
-                    <com.google.android.material.slider.Slider
-                        android:id="@+id/sliderPlacementPriority"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:valueFrom="0"
-                        android:valueTo="2"
-                        android:stepSize="1"
-                        android:value="1"
-                        app:trackHeight="4dp"
-                        app:thumbColor="#3D5AFE"
-                        app:trackColorActive="#3D5AFE"
-                        app:trackColorInactive="#E5E7EB"
-                        android:layout_marginTop="8dp"/>
-                        
-                    <LinearLayout
-                         android:layout_width="match_parent"
-                         android:layout_height="wrap_content"
-                         android:orientation="horizontal"
-                         android:layout_marginTop="-4dp">
-                         <TextView android:text="Low" android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content" android:textSize="12sp" android:textColor="#9CA3AF"/>
-                         <TextView android:text="High" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="12sp" android:textColor="#9CA3AF"/>
-                    </LinearLayout>
+                    android:valueFrom="0"
+                    android:valueTo="2"
+                    android:stepSize="1"
+                    android:value="1"
+                    app:trackHeight="4dp"
+                    app:thumbColor="#3D5AFE"
+                    app:trackColorActive="#3D5AFE"
+                    app:trackColorInactive="#E5E7EB"
+                    android:layout_marginTop="8dp"/>
+
+                <LinearLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:orientation="horizontal"
+                     android:layout_marginTop="-4dp">
+                     <TextView android:text="Low" android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content" android:textSize="12sp" android:textColor="#9CA3AF"/>
+                     <TextView android:text="High" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="12sp" android:textColor="#9CA3AF"/>
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-            
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#E5E7EB"/>
+
             <!-- Campus Size -->
-            <com.google.android.material.card.MaterialCardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="16dp"
-                app:strokeWidth="1dp"
-                app:strokeColor="#000000"
-                app:cardElevation="0dp"
-                android:layout_marginBottom="16dp">
-                
-                <LinearLayout
+                android:orientation="vertical"
+                android:paddingVertical="16dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Campus Size Preference"
+                    android:textStyle="bold"
+                    android:textColor="#000000"
+                    android:textSize="14sp"/>
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroupCampus"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="20dp">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Campus Size Preference"
-                        android:textStyle="bold"
-                        android:textColor="#000000"
-                        android:textSize="14sp"/>
-                    
-                    <com.google.android.material.chip.ChipGroup
-                        android:id="@+id/chipGroupCampus"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        app:singleSelection="true">
-                        <com.google.android.material.chip.Chip android:id="@+id/chipCampusSmall" android:text="Small" style="@style/Widget.Material3.Chip.Filter" android:layout_width="wrap_content" android:layout_height="wrap_content" android:checkable="true" app:chipBackgroundColor="#F3F4F6"/>
-                        <com.google.android.material.chip.Chip android:id="@+id/chipCampusMedium" android:text="Medium" style="@style/Widget.Material3.Chip.Filter" android:layout_width="wrap_content" android:layout_height="wrap_content" android:checkable="true" app:chipBackgroundColor="#F3F4F6"/>
-                        <com.google.android.material.chip.Chip android:id="@+id/chipCampusLarge" android:text="Large" style="@style/Widget.Material3.Chip.Filter" android:layout_width="wrap_content" android:layout_height="wrap_content" android:checkable="true" app:chipBackgroundColor="#F3F4F6"/>
-                    </com.google.android.material.chip.ChipGroup>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-            
+                    android:layout_marginTop="12dp"
+                    app:singleSelection="true">
+                    <com.google.android.material.chip.Chip android:id="@+id/chipCampusSmall" android:text="Small" style="@style/Widget.Material3.Chip.Filter" android:layout_width="wrap_content" android:layout_height="wrap_content" android:checkable="true" app:chipBackgroundColor="#F3F4F6"/>
+                    <com.google.android.material.chip.Chip android:id="@+id/chipCampusMedium" android:text="Medium" style="@style/Widget.Material3.Chip.Filter" android:layout_width="wrap_content" android:layout_height="wrap_content" android:checkable="true" app:chipBackgroundColor="#F3F4F6"/>
+                    <com.google.android.material.chip.Chip android:id="@+id/chipCampusLarge" android:text="Large" style="@style/Widget.Material3.Chip.Filter" android:layout_width="wrap_content" android:layout_height="wrap_content" android:checkable="true" app:chipBackgroundColor="#F3F4F6"/>
+                </com.google.android.material.chip.ChipGroup>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#E5E7EB"/>
+
             <!-- Exam Score -->
-             <com.google.android.material.card.MaterialCardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="16dp"
-                app:strokeWidth="1dp"
-                app:strokeColor="#000000"
-                app:cardElevation="0dp"
-                android:layout_marginBottom="16dp">
-                
-                <LinearLayout
-                    android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:paddingVertical="16dp">
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="20dp">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Entrance Exam Score"
-                        android:textStyle="bold"
-                        android:textColor="#000000"
-                        android:textSize="14sp"/>
-                     <EditText
-                        android:id="@+id/etExamScore"
-                        android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:hint="JEE / State CET / Other"
-                        android:background="@drawable/bg_search_bar"
-                        android:paddingHorizontal="16dp"
-                        android:layout_marginTop="12dp"
-                        android:textColor="#000000"
-                        android:textSize="14sp"/>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-            
-             <!-- Specialization -->
-             <com.google.android.material.card.MaterialCardView
+                    android:text="Entrance Exam Score"
+                    android:textStyle="bold"
+                    android:textColor="#000000"
+                    android:textSize="14sp"/>
+                <EditText
+                    android:id="@+id/etExamScore"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:hint="JEE / State CET / Other"
+                    android:background="@android:color/transparent"
+                    android:paddingHorizontal="0dp"
+                    android:layout_marginTop="4dp"
+                    android:textColor="#000000"
+                    android:textColorHint="#9CA3AF"
+                    android:textSize="14sp"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#E5E7EB"/>
+
+            <!-- Specialization -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="16dp"
-                app:strokeWidth="1dp"
-                app:strokeColor="#000000"
-                app:cardElevation="0dp"
-                android:layout_marginBottom="16dp">
-                
-                <LinearLayout
+                android:orientation="vertical"
+                android:paddingVertical="16dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Specialization Interest"
+                    android:textStyle="bold"
+                    android:textColor="#000000"
+                    android:textSize="14sp"/>
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroupSpecialization"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="20dp">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Specialization Interest"
-                        android:textStyle="bold"
-                        android:textColor="#000000"
-                        android:textSize="14sp"/>
-                    
-                    <com.google.android.material.chip.ChipGroup
-                        android:id="@+id/chipGroupSpecialization"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp">
-                        <com.google.android.material.chip.Chip android:id="@+id/chipCse" android:text="CSE" style="@style/Widget.Material3.Chip.Filter" android:layout_width="wrap_content" android:layout_height="wrap_content" android:checkable="true" app:chipBackgroundColor="#F3F4F6"/>
-                        <com.google.android.material.chip.Chip android:id="@+id/chipAiMlSpec" android:text="AI &amp; ML" style="@style/Widget.Material3.Chip.Filter" android:layout_width="wrap_content" android:layout_height="wrap_content" android:checkable="true" app:chipBackgroundColor="#F3F4F6"/>
-                        <com.google.android.material.chip.Chip android:id="@+id/chipDataScienceSpec" android:text="Data Science" style="@style/Widget.Material3.Chip.Filter" android:layout_width="wrap_content" android:layout_height="wrap_content" android:checkable="true" app:chipBackgroundColor="#F3F4F6"/>
-                        <com.google.android.material.chip.Chip android:id="@+id/chipEce" android:text="ECE" style="@style/Widget.Material3.Chip.Filter" android:layout_width="wrap_content" android:layout_height="wrap_content" android:checkable="true" app:chipBackgroundColor="#F3F4F6"/>
-                        <com.google.android.material.chip.Chip android:id="@+id/chipMech" android:text="Mechanical" style="@style/Widget.Material3.Chip.Filter" android:layout_width="wrap_content" android:layout_height="wrap_content" android:checkable="true" app:chipBackgroundColor="#F3F4F6"/>
-                    </com.google.android.material.chip.ChipGroup>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+                    android:layout_marginTop="12dp">
+                    <com.google.android.material.chip.Chip android:id="@+id/chipCse" android:text="CSE" style="@style/Widget.Material3.Chip.Filter" android:layout_width="wrap_content" android:layout_height="wrap_content" android:checkable="true" app:chipBackgroundColor="#F3F4F6"/>
+                    <com.google.android.material.chip.Chip android:id="@+id/chipAiMlSpec" android:text="AI &amp; ML" style="@style/Widget.Material3.Chip.Filter" android:layout_width="wrap_content" android:layout_height="wrap_content" android:checkable="true" app:chipBackgroundColor="#F3F4F6"/>
+                    <com.google.android.material.chip.Chip android:id="@+id/chipDataScienceSpec" android:text="Data Science" style="@style/Widget.Material3.Chip.Filter" android:layout_width="wrap_content" android:layout_height="wrap_content" android:checkable="true" app:chipBackgroundColor="#F3F4F6"/>
+                    <com.google.android.material.chip.Chip android:id="@+id/chipEce" android:text="ECE" style="@style/Widget.Material3.Chip.Filter" android:layout_width="wrap_content" android:layout_height="wrap_content" android:checkable="true" app:chipBackgroundColor="#F3F4F6"/>
+                    <com.google.android.material.chip.Chip android:id="@+id/chipMech" android:text="Mechanical" style="@style/Widget.Material3.Chip.Filter" android:layout_width="wrap_content" android:layout_height="wrap_content" android:checkable="true" app:chipBackgroundColor="#F3F4F6"/>
+                </com.google.android.material.chip.ChipGroup>
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

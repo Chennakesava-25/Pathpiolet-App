@@ -11,6 +11,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.*
+import androidx.compose.material.icons.automirrored.filled.*
+import androidx.compose.material.icons.automirrored.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -22,8 +24,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
+import androidx.compose.ui.layout.ContentScale
 import com.simats.pathpiolet.MainActivity
 import com.simats.pathpiolet.Screen
+import com.simats.pathpiolet.api.RetrofitClient
 import com.simats.pathpiolet.ui.theme.SplashPrimary
 import com.simats.pathpiolet.utils.SessionManager
 
@@ -62,13 +67,23 @@ fun ProfileScreen(onLogout: () -> Unit) {
                 color = Color(0xFF8E99D6),
                 shadowElevation = 4.dp
             ) {
-                Box(contentAlignment = Alignment.Center) {
-                    Text(
-                        text = username.take(1).uppercase(),
-                        color = Color.White,
-                        fontSize = 40.sp,
-                        fontWeight = FontWeight.Bold
+                val profilePic = sessionManager.getProfilePicture()
+                if (!profilePic.isNullOrEmpty()) {
+                    AsyncImage(
+                        model = RetrofitClient.BASE_URL.dropLast(1) + profilePic,
+                        contentDescription = "Profile Picture",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.fillMaxSize()
                     )
+                } else {
+                    Box(contentAlignment = Alignment.Center) {
+                        Text(
+                            text = username.take(1).uppercase(),
+                            color = Color.White,
+                            fontSize = 40.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
                 }
             }
 
@@ -97,19 +112,9 @@ fun ProfileScreen(onLogout: () -> Unit) {
             onClick = { context.startActivity(Intent(context, EditProfileActivity::class.java)) }
         )
         ProfileMenuItem(
-            icon = Icons.Outlined.List,
+            icon = Icons.AutoMirrored.Outlined.List,
             title = "My activity",
             onClick = { context.startActivity(Intent(context, ActivityHistoryActivity::class.java)) }
-        )
-        ProfileMenuItem(
-            icon = Icons.Outlined.Email,
-            title = "Send feedback",
-            onClick = { context.startActivity(Intent(context, SendFeedbackActivity::class.java)) }
-        )
-        ProfileMenuItem(
-            icon = Icons.Outlined.Star,
-            title = "Rate Us",
-            onClick = { context.startActivity(Intent(context, RateUsActivity::class.java)) }
         )
         ProfileMenuItem(
             icon = Icons.Outlined.Info,
@@ -130,7 +135,7 @@ fun ProfileScreen(onLogout: () -> Unit) {
         Spacer(modifier = Modifier.height(12.dp))
 
         ProfileMenuItem(
-            icon = Icons.Outlined.ExitToApp,
+            icon = Icons.AutoMirrored.Outlined.ExitToApp,
             title = "Logout",
             titleColor = Color.Red,
             iconContainerColor = Color(0xFFFFF0F0),
@@ -188,7 +193,7 @@ fun ProfileMenuItem(
             )
             
             Icon(
-                imageVector = Icons.Default.KeyboardArrowRight,
+                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
                 contentDescription = null,
                 tint = Color(0xFFD1D5DB)
             )

@@ -33,7 +33,7 @@ import com.simats.pathpiolet.utils.SessionManager
 @Composable
 fun SignUpScreen(
     onLoginClick: () -> Unit,
-    onSignUpSuccess: () -> Unit
+    onSignUpSuccess: (String) -> Unit
 ) {
     var fullName by remember { mutableStateOf("") }
     var phoneNumber by remember { mutableStateOf("") }
@@ -60,6 +60,8 @@ fun SignUpScreen(
             Toast.makeText(context, "Password must contain at least one uppercase letter", Toast.LENGTH_SHORT).show()
         } else if (!password.any { it.isDigit() }) {
             Toast.makeText(context, "Password must contain at least one number", Toast.LENGTH_SHORT).show()
+        } else if ((age.toIntOrNull() ?: 0) <= 15) {
+            Toast.makeText(context, "Age must be greater than 15", Toast.LENGTH_SHORT).show()
         } else if (password != confirmPassword) {
             Toast.makeText(context, "Passwords do not match", Toast.LENGTH_SHORT).show()
         } else {
@@ -70,20 +72,8 @@ fun SignUpScreen(
                 override fun onResponse(call: Call<AuthResponse>, response: Response<AuthResponse>) {
                     isLoading = false
                     if (response.isSuccessful) {
-                        val authResponse = response.body()
-                        authResponse?.user?.let { user ->
-                            sessionManager.saveUser(
-                                user.id, 
-                                user.username, 
-                                user.email, 
-                                user.phone, 
-                                user.age, 
-                                user.education_level, 
-                                user.interested_field
-                            )
-                        }
-                        Toast.makeText(context, "Registration Successful", Toast.LENGTH_SHORT).show()
-                        onSignUpSuccess()
+                        Toast.makeText(context, "OTP sent to $email", Toast.LENGTH_SHORT).show()
+                        onSignUpSuccess(email)
                     } else {
                         val errorMsg = response.errorBody()?.string() ?: "Registration failed"
                         Toast.makeText(context, "Error: $errorMsg", Toast.LENGTH_SHORT).show()

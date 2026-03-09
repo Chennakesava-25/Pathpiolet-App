@@ -14,13 +14,12 @@
         android:background="#FFFFFF"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageButton
+        <include
             android:id="@+id/btnBack"
-            android:layout_width="40.dp"
-            android:layout_height="40.dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@android:drawable/ic_menu_revert"
-            app:tint="#1A3B8B" />
+            layout="@layout/layout_back_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -35,7 +34,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/btnSubmit"
+        app:layout_constraintBottom_toTopOf="@id/btnSubmitContact"
         app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <LinearLayout
@@ -93,7 +92,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="support@pathpoilet.com"
+                            android:text="pathpiolet@gmail.com"
                             android:textColor="#7C86A2"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -141,61 +140,13 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="+91-9876543210"
+                            android:text="7075346544"
                             android:textColor="#7C86A2"
                             android:textSize="12sp" />
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Live Chat -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12.dp"
-                android:alpha="0.6"
-                app:cardCornerRadius="16.dp"
-                app:cardElevation="1.dp">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="16.dp">
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="48.dp"
-                        android:layout_height="48.dp"
-                        app:cardBackgroundColor="#F5F6FA"
-                        app:cardCornerRadius="12.dp"
-                        app:cardElevation="0.dp">
-                        <ImageView
-                            android:layout_width="24.dp"
-                            android:layout_height="24.dp"
-                            android:layout_gravity="center"
-                            android:src="@android:drawable/stat_notify_chat"
-                            app:tint="#7C86A2" />
-                    </androidx.cardview.widget.CardView>
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16.dp"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Live Chat"
-                            android:textColor="#7C86A2"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Coming Soon"
-                            android:textColor="#C0C0C0"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
 
             <View android:layout_width="match_parent" android:layout_height="32.dp" />
 
